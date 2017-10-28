@@ -103,6 +103,7 @@ class EventModel extends WidgetModel {
         this.on('change:source', this.prepare_source, this)
         this.on('change:watched_events', this.update_listeners, this)
         this.prepare_source()
+        console.log('YO YO YO!')
     }
 
     key_or_mouse(event_type) {
