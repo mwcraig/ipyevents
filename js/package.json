@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "clean": "rimraf dist/",
-    "prepublish": "webpack",
+    "prepublish": "webpack && npm run clean && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:src": "tsc --project src",
     "build": "npm run build:src"
