@@ -25,10 +25,12 @@
   },
   "devDependencies": {
     "webpack": "^3.5.5",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.1",
+    "typescript": "~2.4.1"
   },
   "dependencies": {
-    "@jupyter-widgets/base": "^1.0.0",
+    "@jupyter-widgets/base": "^1.0.4",
+    "@jupyter-widgets/controls": "^1.0.5",
     "lodash": "^4.17.4"
   }
 }
