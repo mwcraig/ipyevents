@@ -1,7 +1,7 @@
 ipyevents
 ===============================
 
-A custom widget fo r returning mouse and keyboard events to Python
+A custom widget for returning mouse and keyboard events to Python
 
 Installation
 ------------

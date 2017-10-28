@@ -22,7 +22,7 @@ log.set_verbosity(log.DEBUG)
 log.info('setup.py entered')
 log.info('$PATH=%s' % os.environ['PATH'])
 
-LONG_DESCRIPTION = 'A custom widget fo r returning mouse and keyboard events to Python'
+LONG_DESCRIPTION = 'A custom widget for returning mouse and keyboard events to Python'
 
 def js_prerelease(command, strict=False):
     """decorator for building minified js/css prior to another command"""
@@ -80,9 +80,9 @@ class NPM(Command):
         npmName = 'npm';
         if platform.system() == 'Windows':
             npmName = 'npm.cmd';
-            
+
         return npmName;
-    
+
     def has_npm(self):
         npmName = self.get_npm_name();
         try:
@@ -127,7 +127,7 @@ with open(os.path.join(here, 'ipyevents', '_version.py')) as f:
 setup_args = {
     'name': 'ipyevents',
     'version': version_ns['__version__'],
-    'description': 'A custom widget fo r returning mouse and keyboard events to Python',
+    'description': 'A custom widget for returning mouse and keyboard events to Python',
     'long_description': LONG_DESCRIPTION,
     'include_package_data': True,
     'data_files': [

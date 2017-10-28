@@ -1,7 +1,7 @@
 {
   "name": "ipyevents",
   "version": "0.1.0",
-  "description": "A custom widget fo r returning mouse and keyboard events to Python",
+  "description": "A custom widget for returning mouse and keyboard events to Python",
   "author": "Matt Craig",
   "main": "lib/index.js",
   "repository": {
