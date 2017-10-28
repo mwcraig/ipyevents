@@ -227,7 +227,7 @@ class EventModel extends WidgetModel {
 
 
     _dom_click(generating_view, event) {
-        // Get coordinates relative to the
+        // Get coordinates relative to the container
         let relative_xy = _get_position(generating_view, event)
         event['relativeX'] = relative_xy.x
         event['relativeY'] = relative_xy.y
@@ -236,6 +236,21 @@ class EventModel extends WidgetModel {
             event['arrayX'] = array_coords.x
             event['arrayY'] = array_coords.y
         }
+        else if (generating_view.model.get('_view_name') == 'ImageView') {
+            // NO OTHER WIDGETS WILL BE SPECIAL CASED in this package.
+            // Image widget from the core ipywidgets package gets special
+            // treatment to ensure this works with all versions of
+            // ipywidgets >= 7.0.0.
+            //
+            // If your custom widget has some special way of converting
+            // to an _array_xy then please add that method to the widget's
+            // view.
+            let array_coords = _click_location_original_image(generating_view,
+                                                              event);
+            event['arrayX'] = array_coords.x
+            event['arrayY'] = array_coords.y
+        }
+
         if ((event.type == 'wheel') || this.get('prevent_default_action')) {
             event.preventDefault()
         }
@@ -274,5 +289,20 @@ class EventModel extends WidgetModel {
         event_message['event'] = event['type']
         this.send(event_message, {})
     }
+}
+
+function _click_location_original_image(view, event) {
+    // Calculate the location in image units.
+    // Works for ipywidgets.Image
+    var pad_left = parseInt(view.el.style.paddingLeft) || 0;
+    var border_left = parseInt(view.el.style.borderLeft) || 0;
+    var pad_top = parseInt(view.el.style.paddingTop) || 0;
+    var border_top = parseInt(view.el.style.borderTop) || 0;
+
+    var relative_click_x = parseInt(event.relativeX) - border_left - pad_left;
+    var relative_click_y = parseInt(event.relativeY) - border_top - pad_top;
+    var image_x = Math.round(relative_click_x / view.el.width * view.el.naturalWidth);
+    var image_y = Math.round(relative_click_y / view.el.height * view.el.naturalHeight);
+    return {x: image_x, y: image_y}
 }
 
