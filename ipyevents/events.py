@@ -1,7 +1,7 @@
-from .widget_core import CoreWidget
-from .domwidget import DOMWidget
-from .trait_types import InstanceDict
-from .widget import register, widget_serialization, CallbackDispatcher
+from ipywidgets import CoreWidget
+from ipywidgets import DOMWidget
+from ipywidgets.widgets.trait_types import InstanceDict
+from ipywidgets import register, widget_serialization, CallbackDispatcher
 from traitlets import Unicode, List, Bool, validate
 
 
