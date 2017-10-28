@@ -86,6 +86,7 @@ class EventModel extends WidgetModel {
     defaults() {
         return _.extend(super.defaults(), {
             _model_name: 'EventModel',
+            _model_module: 'ipyevents',
             source: null,
             watched_events: [],
             ignore_modifier_key_events: false,
