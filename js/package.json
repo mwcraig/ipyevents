@@ -15,6 +15,7 @@
     "ipywidgets"
   ],
   "files": [
+    "lib/**/*.d.ts",
     "lib/**/*.js",
     "dist/*.js"
   ],
@@ -28,7 +29,8 @@
   "devDependencies": {
     "webpack": "^3.5.5",
     "rimraf": "^2.6.1",
-    "typescript": "~2.4.1"
+    "typescript": "~2.4.1",
+    "@types/node": "^8.0.1"
   },
   "dependencies": {
     "@jupyter-widgets/base": "^1.0.4",
