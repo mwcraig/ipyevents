@@ -1,1 +1,2 @@
 recursive-include ipyevents/static *.*
+include LICENSE.md

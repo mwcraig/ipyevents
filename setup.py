@@ -129,6 +129,7 @@ setup_args = {
     'version': version_ns['__version__'],
     'description': 'A custom widget for returning mouse and keyboard events to Python',
     'long_description': LONG_DESCRIPTION,
+    'license': 'BSD 3-clause',
     'include_package_data': True,
     'data_files': [
         ('share/jupyter/nbextensions/ipyevents', [

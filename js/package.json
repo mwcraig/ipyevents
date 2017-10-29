@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A custom widget for returning mouse and keyboard events to Python",
   "author": "Matt Craig",
+  "license": "BSD-3-Clause",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
