@@ -3,8 +3,8 @@
 // which is required for any notebook extension.
 
 // Configure requirejs
-if (window.require) {
-    window.require.config({
+if ((<any>window).require) {
+    (<any>window).require.config({
         map: {
             "*" : {
                 "ipyevents": "nbextensions/ipyevents/index",
