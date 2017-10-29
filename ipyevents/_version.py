@@ -1,4 +1,7 @@
-version_info = (0, 1, 0, 'alpha', 0)
+# What a full version specifier looks like:
+# version_info = (0, 0, 1, 'alpha', 0)
+
+version_info = (0, 0, 1, 'final')
 
 _specifier_ = {'alpha': 'a', 'beta': 'b', 'candidate': 'rc', 'final': ''}
 
