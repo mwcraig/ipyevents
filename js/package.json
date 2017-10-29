@@ -19,8 +19,8 @@
     "dist/*.js"
   ],
   "scripts": {
-    "clean": "rimraf dist/",
-    "prepublish": "webpack && npm run clean && npm run build",
+    "clean": "rimraf dist/ & rimraf lib/",
+    "prepublish": "npm run clean && npm run build && webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:src": "tsc --project src",
     "build": "npm run build:src"
