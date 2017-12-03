@@ -8,7 +8,7 @@ Python. Use it to:
  - react to the user clicking on an image;
  - install callbacks on arbitrary mouse and keyboard events.
  
-See [this demo notebook](/doc/Widget\ Dom\ Events.ipynb) for documentation.
+See [this demo notebook](doc/Widget%20DOM%20Events.ipynb) for documentation.
 
 Installation
 ------------
