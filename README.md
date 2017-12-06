@@ -1,7 +1,14 @@
 ipyevents
-===============================
+=========
 
-A custom widget for returning mouse and keyboard events to Python
+*ipyevents* provides a custom widget for returning mouse and keyboard events to
+Python. Use it to:
+
+ - add keyboard shortcuts to an existing widget;
+ - react to the user clicking on an image;
+ - install callbacks on arbitrary mouse and keyboard events.
+ 
+See [this demo notebook](doc/Widget%20DOM%20Events.ipynb) for documentation.
 
 Installation
 ------------
