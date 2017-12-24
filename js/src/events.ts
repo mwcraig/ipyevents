@@ -176,7 +176,7 @@ class EventModel extends WidgetModel {
                     this._cache_listeners(event, view, handler)
                     break
                 default:
-                    console.log('Not familiar with that message source')
+                    console.error('Not familiar with that message source')
                     break
             }
         }
