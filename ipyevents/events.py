@@ -53,12 +53,15 @@ class Event(CoreWidget):
     @validate('watched_events')
     def _validate_watched_events(self, proposal):
         value = proposal['value']
+        supported_events = (self._supported_mouse_events +
+                            self._supported_key_events)
         bad_events = [v for v in value if v not in
-                      self._supported_mouse_events
-                      + self._supported_key_events]
+                      supported_events]
         if bad_events:
-            raise ValueError('The event(s) {} are not '
-                             'supported.'.format(bad_events))
+            message = ('The event(s) {bad} are not supported. The supported '
+                       'events are:\n {good}'.format(bad=bad_events,
+                                                     good=supported_events))
+            raise ValueError(message)
         return value
 
     def on_dom_event(self, callback, remove=False):
