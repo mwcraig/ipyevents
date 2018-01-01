@@ -98,7 +98,9 @@ class EventModel extends WidgetModel {
             watched_events: [],
             ignore_modifier_key_events: false,
             prevent_default_action: false,
-            _supported_mouse_events: [],
+            xy_trait_coords: null,
+            xy: null,
+            _xy_trait_coords_allowed: [],            _supported_mouse_events: [],
             _supported_key_events: [],
             _modifier_keys: ['Shift', 'Control', 'Alt', 'Meta']
         });
@@ -108,6 +110,7 @@ class EventModel extends WidgetModel {
         super.initialize(attributes, options);
         this.on('change:source', this.prepare_source, this)
         this.on('change:watched_events', this.update_listeners, this)
+        this.on('change:xy_trait_coords', this.update_listeners, this)
         this.prepare_source()
     }
 
@@ -174,6 +177,7 @@ class EventModel extends WidgetModel {
     }
 
     _add_listeners_to_view(view) {
+        // Add listeners for each of the watched events
         for (let event of this.get('watched_events')) {
             switch (this.key_or_mouse(event)) {
                 case "keyboard":
@@ -191,6 +195,17 @@ class EventModel extends WidgetModel {
                     console.error('Not familiar with that message source')
                     break
             }
+        }
+        // Also add listeners to support populating the x/y traits
+        console.log('About to add listeners')
+        console.log(this.get('xy_trait_coords'))
+        if (this.get('xy_trait_coords') != null) {
+            console.log('I am attaching')
+            let prevent_default = this.get('prevent_default_action')
+            let handler = this._set_xy.bind(this, view)
+            let event = 'mousemove'
+            view.el.addEventListener(event, handler)
+            this._cache_listeners(event, view, handler)
         }
     }
 
@@ -235,9 +250,8 @@ class EventModel extends WidgetModel {
         this._cache_listeners('mouseenter', view, enable_key_listen)
         this._cache_listeners('mouseleave', view, disable_key_listen)
     }
+    _supplement_mouse_positions(generating_view, event) {
 
-
-    _dom_click(generating_view, event) {
         // Get coordinates relative to the container
         let relative_xy = _get_position(generating_view, event)
         event['relativeX'] = relative_xy.x
@@ -261,6 +275,12 @@ class EventModel extends WidgetModel {
             event['arrayX'] = array_coords.x
             event['arrayY'] = array_coords.y
         }
+    }
+
+    _dom_click(generating_view, event) {
+        // Get coordinates relative to the container, and
+        // array (i.e. "natural") coordinates.
+        this._supplement_mouse_positions(generating_view, event)
 
         if ((event.type == 'wheel') || this.get('prevent_default_action')) {
             event.preventDefault()
@@ -268,6 +288,18 @@ class EventModel extends WidgetModel {
         this._send_dom_event(event)
     }
 
+    _set_xy(generating_view, event) {
+                // Get coordinates relative to the container, and
+        // array (i.e. "natural") coordinates.
+        this._supplement_mouse_positions(generating_view, event)
+        console.log('in _set_xy')
+        let coord_type = this.get('xy_trait_coords')
+        let coords = [event[coord_type + 'X'], event[coord_type + 'Y']]
+        console.log(coords)
+        this.set('xy', coords)
+        console.log(this.get('xy'))
+        this.save_changes()
+    }
 
     _send_dom_event(event) {
         // Construct the event message. The message is a dictionary, with keys
