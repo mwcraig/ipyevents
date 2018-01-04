@@ -61,6 +61,8 @@ let key_standard_event_names = [
     'repeat'
 ]
 
+let listener_cache = {}
+
 function _get_position(view, event) {
     // Return something like the position relative to the element to which
     // the listener is attached. This is essentially what layerX and layerY
@@ -91,7 +93,6 @@ class EventModel extends WidgetModel {
             watched_events: [],
             ignore_modifier_key_events: false,
             prevent_default_action: false,
-            _attached_listeners: [],
             _supported_mouse_events: [],
             _supported_key_events: [],
             _modifier_keys: ['Shift', 'Control', 'Alt', 'Meta']
@@ -117,7 +118,10 @@ class EventModel extends WidgetModel {
     _cache_listeners(event_type, view, handler) {
         // Build up a cache of listeners so they can be removed if the
         // listener changes source or watched events.
-        this.get('_attached_listeners').push({
+        if (! listener_cache[this.model_id]) {
+            listener_cache[this.model_id] = []
+        }
+        listener_cache[this.model_id].push({
             event: event_type,
             view: view,
             func: handler,
@@ -155,10 +159,13 @@ class EventModel extends WidgetModel {
 
     remove_listeners() {
         // Remove all of the event listeners stored in the cache.
-        for (let listener of this.get('_attached_listeners')) {
-            listener.view.el.removeEventListener(listener.event, listener.func)
-        }
-        this.set('_attached_listeners', [])
+        if (listener_cache[this.model_id]) {
+            for (let listener of listener_cache[this.model_id]) {
+                listener.view.el.removeEventListener(listener.event, listener.func)
+            }
+         }
+        // Reset the list of listeners.
+        listener_cache[this.model_id] = null
     }
 
     _add_listeners_to_view(view) {
