@@ -99,8 +99,9 @@ class EventModel extends WidgetModel {
             ignore_modifier_key_events: false,
             prevent_default_action: false,
             xy_trait_coords: null,
-            xy: null,
-            _xy_trait_coords_allowed: [],            _supported_mouse_events: [],
+            xy: [],
+            _xy_trait_coords_allowed: [],
+            _supported_mouse_events: [],
             _supported_key_events: [],
             _modifier_keys: ['Shift', 'Control', 'Alt', 'Meta']
         });
@@ -174,6 +175,11 @@ class EventModel extends WidgetModel {
          }
         // Reset the list of listeners.
         listener_cache[this.model_id] = null
+        // Reset the mouse position trait, if necessary...
+        if (this.get('xy').length > 0) {
+            this.set('xy', [])
+            this.save_changes()
+        }
     }
 
     _add_listeners_to_view(view) {
@@ -197,10 +203,7 @@ class EventModel extends WidgetModel {
             }
         }
         // Also add listeners to support populating the x/y traits
-        console.log('About to add listeners')
-        console.log(this.get('xy_trait_coords'))
-        if (this.get('xy_trait_coords') != null) {
-            console.log('I am attaching')
+        if (this.get('xy_trait_coords')) {
             let prevent_default = this.get('prevent_default_action')
             let handler = this._set_xy.bind(this, view)
             let event = 'mousemove'
@@ -292,12 +295,15 @@ class EventModel extends WidgetModel {
                 // Get coordinates relative to the container, and
         // array (i.e. "natural") coordinates.
         this._supplement_mouse_positions(generating_view, event)
-        console.log('in _set_xy')
         let coord_type = this.get('xy_trait_coords')
         let coords = [event[coord_type + 'X'], event[coord_type + 'Y']]
-        console.log(coords)
+        if (coords[0] === undefined) {
+            // The user likely asked for array/natural coordinates but
+            // they are not defined for this object. Let the user know...
+            console.error('No coordinates of this type found: ' + coord_type)
+            return;
+        }
         this.set('xy', coords)
-        console.log(this.get('xy'))
         this.save_changes()
     }
 
@@ -322,7 +328,7 @@ class EventModel extends WidgetModel {
                 message_names = common_event_message_names.concat(key_standard_event_names)
                 break;
             default:
-                console.log('Not familiar with that message source')
+                console.error('Not familiar with that message source')
                 break;
         }
 
