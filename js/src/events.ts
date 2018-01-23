@@ -2,6 +2,10 @@ import {
     WidgetModel, WidgetView, DOMWidgetView, unpack_models
 } from '@jupyter-widgets/base';
 
+import {
+  JUPYTER_EXTENSION_VERSION
+} from './version';
+
 import * as _ from 'underscore';
 
 // The names in the lists below are what will be sent as part of the
@@ -89,6 +93,7 @@ class EventModel extends WidgetModel {
         return _.extend(super.defaults(), {
             _model_name: 'EventModel',
             _model_module: 'ipyevents',
+            _model_module_version: JUPYTER_EXTENSION_VERSION,
             source: null,
             watched_events: [],
             ignore_modifier_key_events: false,
@@ -311,4 +316,3 @@ function _click_location_original_image(view, event) {
     var image_y = Math.round(relative_click_y / view.el.height * view.el.naturalHeight);
     return {x: image_x, y: image_y}
 }
-

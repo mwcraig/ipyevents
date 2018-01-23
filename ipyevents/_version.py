@@ -1,13 +1,13 @@
 # What a full version specifier looks like:
 # version_info = (0, 0, 1, 'alpha', 0)
 
-version_info = (0, 0, 2, 'dev', 1)
+version_info = (1, 0, 0, 'final', 0)
 
 _specifier_ = {
-        'dev': 'dev', 
-        'alpha': 'a', 
-        'beta': 'b', 
-        'candidate': 'rc', 
+        'dev': 'dev',
+        'alpha': 'a',
+        'beta': 'b',
+        'candidate': 'rc',
         'final': ''
 }
 
