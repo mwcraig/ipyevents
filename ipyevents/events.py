@@ -24,7 +24,7 @@ class Event(CoreWidget):
         'page',     # Relative to the whole document
         'relative', # Relative to the widget
         'screen'    # Relative to the screen
-    ]).tag(sync=True)
+    ]).tag(sync=False)
     xy = List().tag(sync=True)
     _supported_mouse_events = List([
         'click',

@@ -100,7 +100,6 @@ class EventModel extends WidgetModel {
             prevent_default_action: false,
             xy_coordinate_system: null,
             xy: [],
-            _xy_coordinate_system_allowed: [],
             _supported_mouse_events: [],
             _supported_key_events: [],
             _modifier_keys: ['Shift', 'Control', 'Alt', 'Meta']
