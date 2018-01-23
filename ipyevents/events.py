@@ -15,8 +15,8 @@ class Event(CoreWidget):
     watched_events = List().tag(sync=True)
     ignore_modifier_key_events = Bool(False).tag(sync=True)
     prevent_default_action = Bool(False).tag(sync=True)
-    xy_trait_coords = Unicode(allow_none=True, default=None).tag(sync=True)
-    _xy_trait_coords_allowed = List([
+    xy_coordinate_system = Unicode(allow_none=True, default=None).tag(sync=True)
+    _xy_coordinate_system_allowed = List([
         None,       # Not tracking mouse x/y
         'array',    # "natural" coordinates for the widget (e.g. image)
         'client',   # Relative to the visible part of the web page
@@ -77,14 +77,14 @@ class Event(CoreWidget):
             raise ValueError(message)
         return value
 
-    @validate('xy_trait_coords')
-    def _xy_trait_coords(self, proposal):
+    @validate('xy_coordinate_system')
+    def _xy_coordinate_system(self, proposal):
         value = proposal['value']
-        if value not in self._xy_trait_coords_allowed:
+        if value not in self._xy_coordinate_system_allowed:
             message = ('The coordinates {bad} are not supported. The '
                        'supported coordinates are:'
                        '\n {good}'.format(bad=value,
-                                          good=self._xy_trait_coords_allowed))
+                                          good=self._xy_coordinate_system_allowed))
             raise ValueError(message)
         return value
 

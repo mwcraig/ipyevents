@@ -98,9 +98,9 @@ class EventModel extends WidgetModel {
             watched_events: [],
             ignore_modifier_key_events: false,
             prevent_default_action: false,
-            xy_trait_coords: null,
+            xy_coordinate_system: null,
             xy: [],
-            _xy_trait_coords_allowed: [],
+            _xy_coordinate_system_allowed: [],
             _supported_mouse_events: [],
             _supported_key_events: [],
             _modifier_keys: ['Shift', 'Control', 'Alt', 'Meta']
@@ -111,7 +111,7 @@ class EventModel extends WidgetModel {
         super.initialize(attributes, options);
         this.on('change:source', this.prepare_source, this)
         this.on('change:watched_events', this.update_listeners, this)
-        this.on('change:xy_trait_coords', this.update_listeners, this)
+        this.on('change:xy_coordinate_system', this.update_listeners, this)
         this.prepare_source()
     }
 
@@ -203,7 +203,7 @@ class EventModel extends WidgetModel {
             }
         }
         // Also add listeners to support populating the x/y traits
-        if (this.get('xy_trait_coords')) {
+        if (this.get('xy_coordinate_system')) {
             let prevent_default = this.get('prevent_default_action')
             let handler = this._set_xy.bind(this, view)
             let event = 'mousemove'
@@ -295,7 +295,7 @@ class EventModel extends WidgetModel {
                 // Get coordinates relative to the container, and
         // array (i.e. "natural") coordinates.
         this._supplement_mouse_positions(generating_view, event)
-        let coord_type = this.get('xy_trait_coords')
+        let coord_type = this.get('xy_coordinate_system')
         let coords = [event[coord_type + 'X'], event[coord_type + 'Y']]
         if (coords[0] === undefined) {
             // The user likely asked for array/natural coordinates but
