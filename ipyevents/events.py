@@ -1,7 +1,8 @@
 from ipywidgets import CoreWidget
 from ipywidgets import DOMWidget
 from ipywidgets.widgets.trait_types import InstanceDict
-from ipywidgets import register, widget_serialization, CallbackDispatcher
+from ipywidgets import register, widget_serialization, CallbackDispatcher, Widget
+
 from traitlets import Unicode, List, Bool, validate
 
 
@@ -13,6 +14,7 @@ class Event(CoreWidget):
     watched_events = List().tag(sync=True)
     ignore_modifier_key_events = Bool(False).tag(sync=True)
     prevent_default_action = Bool(False).tag(sync=True)
+    draggable = Bool(False).tag(sync=True)
     _supported_mouse_events = List([
         'click',
         'auxclick',
@@ -78,4 +80,7 @@ class Event(CoreWidget):
         self._dom_handlers.register_callback(callback, remove=remove)
 
     def _handle_mouse_msg(self, _, content, buffers):
+        if content['type'] == 'drop':
+            content['data'] = Widget.widgets[content['data']]
+
         self._dom_handlers(content)

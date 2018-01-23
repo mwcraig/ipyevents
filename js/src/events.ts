@@ -93,6 +93,8 @@ class EventModel extends WidgetModel {
             watched_events: [],
             ignore_modifier_key_events: false,
             prevent_default_action: false,
+            draggable: false,
+            _attached_listeners: [],
             _supported_mouse_events: [],
             _supported_key_events: [],
             _modifier_keys: ['Shift', 'Control', 'Alt', 'Meta']
@@ -103,7 +105,23 @@ class EventModel extends WidgetModel {
         super.initialize(attributes, options);
         this.on('change:source', this.prepare_source, this)
         this.on('change:watched_events', this.update_listeners, this)
+        this.on('change:draggable', this.change_draggable, this)
         this.prepare_source()
+    }
+
+    set_drag_data(view, event) {
+        event.dataTransfer.setData('text/plain', this.get('source').model_id)
+    }
+    change_draggable() {
+        let current_source = this.get('source')
+        _.each(current_source.views, (view_promise) => {
+            Promise.resolve(view_promise).then((view: DOMWidgetView) => {
+                view.el.setAttribute("draggable", this.get('draggable'))
+                let handler = this.set_drag_data.bind(this, view)
+                view.el.addEventListener('dragstart', handler)
+                this._cache_listeners('dragstart', view, handler)
+            })
+        })
     }
 
     key_or_mouse(event_type) {
@@ -147,10 +165,13 @@ class EventModel extends WidgetModel {
             current_model.set('_view_count', 0)
         }
         this.listenTo(current_model, 'change:_view_count', this.update_listeners)
+
         this.update_listeners()
     }
 
     update_listeners() {
+        // Initialize draggability for this widget.
+        this.change_draggable()
         // Remove all existing DOM event listeners
         this.remove_listeners()
         // Add watchers to any existing views of the model
@@ -288,7 +309,11 @@ class EventModel extends WidgetModel {
                 console.log('Not familiar with that message source')
                 break;
         }
-
+        if (event.type == "drop") {
+            let data = event.dataTransfer.getData("text/plain")
+            event_message['data'] = data
+            event.preventDefault()
+        }
         for (let i of message_names) {
             event_message[i] = event[i]
         }
