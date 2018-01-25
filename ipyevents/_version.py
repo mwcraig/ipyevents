@@ -1,7 +1,7 @@
 # What a full version specifier looks like:
 # version_info = (0, 0, 1, 'alpha', 0)
 
-version_info = (0, 2, 0, 'final', 1)
+version_info = (0, 3, 0, 'dev', 1)
 
 _specifier_ = {
         'dev': 'dev',
