@@ -3,12 +3,14 @@ from ipywidgets import DOMWidget
 from ipywidgets.widgets.trait_types import InstanceDict
 from ipywidgets import register, widget_serialization, CallbackDispatcher
 from traitlets import Unicode, List, Bool, validate
+from ._version import PROTOCOL_VERSION
 
 
 @register
 class Event(CoreWidget):
     _model_name = Unicode('EventModel').tag(sync=True)
     _model_module = Unicode('ipyevents').tag(sync=True)
+    _model_module_version = Unicode(PROTOCOL_VERSION).tag(sync=True)
     source = InstanceDict(DOMWidget).tag(sync=True, **widget_serialization)
     watched_events = List().tag(sync=True)
     ignore_modifier_key_events = Bool(False).tag(sync=True)

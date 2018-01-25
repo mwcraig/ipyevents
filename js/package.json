@@ -28,14 +28,21 @@
     "build": "npm run build:src"
   },
   "devDependencies": {
+    "@phosphor/application": "^1.5.0",
+    "@phosphor/widgets": "^1.5.0",
     "webpack": "^3.5.5",
     "rimraf": "^2.6.1",
     "typescript": "~2.4.1",
     "@types/node": "^8.0.1"
   },
   "dependencies": {
+    "@phosphor/application": "^1.5.0",
+    "@phosphor/widgets": "^1.5.0",
     "@jupyter-widgets/base": "^1.0.4",
     "@jupyter-widgets/controls": "^1.0.5",
     "lodash": "^4.17.4"
+  },
+  "jupyterlab": {
+    "extension": "lib/plugin"
   }
 }
