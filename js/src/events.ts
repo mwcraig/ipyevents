@@ -3,7 +3,7 @@ import {
 } from '@jupyter-widgets/base';
 
 import {
-  PROTOCOL_VERSION
+  EXTENSION_SPEC_VERSION
 } from './version';
 
 import * as _ from 'underscore';
@@ -93,7 +93,7 @@ class EventModel extends WidgetModel {
         return _.extend(super.defaults(), {
             _model_name: 'EventModel',
             _model_module: 'ipyevents',
-            _model_module_version: PROTOCOL_VERSION,
+            _model_module_version: EXTENSION_SPEC_VERSION,
             source: null,
             watched_events: [],
             ignore_modifier_key_events: false,
