@@ -7,7 +7,4 @@
  * your models, or serialized format changes.
  */
 export
-const PROTOCOL_VERSION = '1.0.0';
-
-export
-const NPM_VERSION = require('../package.json').version;
+const EXTENSION_SPEC_VERSION = '1.0.0';

@@ -15,7 +15,7 @@ import {
 } from './events';
 
 import {
-  NPM_VERSION
+  EXTENSION_SPEC_VERSION
 } from './version';
 
 /**
@@ -37,7 +37,7 @@ export default ipyeventsPlugin;
 function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWidgetRegistry): void {
   registry.registerWidget({
     name: 'ipyevents',
-    version: NPM_VERSION,
+    version: EXTENSION_SPEC_VERSION,
     exports: {
       EventModel: EventModel
     }
