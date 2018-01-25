@@ -16,15 +16,6 @@ class Event(CoreWidget):
     ignore_modifier_key_events = Bool(False).tag(sync=True)
     prevent_default_action = Bool(False).tag(sync=True)
     xy_coordinate_system = Unicode(allow_none=True, default=None).tag(sync=True)
-    _xy_coordinate_system_allowed = List([
-        None,       # Not tracking mouse x/y
-        'array',    # "natural" coordinates for the widget (e.g. image)
-        'client',   # Relative to the visible part of the web page
-        'offset',   # Relative to the padding edge of widget
-        'page',     # Relative to the whole document
-        'relative', # Relative to the widget
-        'screen'    # Relative to the screen
-    ]).tag(sync=False)
     xy = List().tag(sync=True)
     _supported_mouse_events = List([
         'click',
@@ -49,6 +40,16 @@ class Event(CoreWidget):
         'keydown',
         'keyup'
     ]).tag(sync=True)
+
+    _xy_coordinate_system_allowed = [
+        None,       # Not tracking mouse x/y
+        'array',    # "natural" coordinates for the widget (e.g. image)
+        'client',   # Relative to the visible part of the web page
+        'offset',   # Relative to the padding edge of widget
+        'page',     # Relative to the whole document
+        'relative', # Relative to the widget
+        'screen'    # Relative to the screen
+    ]
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
