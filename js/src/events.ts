@@ -98,6 +98,8 @@ class EventModel extends WidgetModel {
             watched_events: [],
             ignore_modifier_key_events: false,
             prevent_default_action: false,
+            xy_coordinate_system: null,
+            xy: [],
             _supported_mouse_events: [],
             _supported_key_events: [],
             _modifier_keys: ['Shift', 'Control', 'Alt', 'Meta']
@@ -108,6 +110,7 @@ class EventModel extends WidgetModel {
         super.initialize(attributes, options);
         this.on('change:source', this.prepare_source, this)
         this.on('change:watched_events', this.update_listeners, this)
+        this.on('change:xy_coordinate_system', this.update_listeners, this)
         this.prepare_source()
     }
 
@@ -171,9 +174,15 @@ class EventModel extends WidgetModel {
          }
         // Reset the list of listeners.
         listener_cache[this.model_id] = null
+        // Reset the mouse position trait, if necessary...
+        if (this.get('xy').length > 0) {
+            this.set('xy', [])
+            this.save_changes()
+        }
     }
 
     _add_listeners_to_view(view) {
+        // Add listeners for each of the watched events
         for (let event of this.get('watched_events')) {
             switch (this.key_or_mouse(event)) {
                 case "keyboard":
@@ -191,6 +200,14 @@ class EventModel extends WidgetModel {
                     console.error('Not familiar with that message source')
                     break
             }
+        }
+        // Also add listeners to support populating the x/y traits
+        if (this.get('xy_coordinate_system')) {
+            let prevent_default = this.get('prevent_default_action')
+            let handler = this._set_xy.bind(this, view)
+            let event = 'mousemove'
+            view.el.addEventListener(event, handler)
+            this._cache_listeners(event, view, handler)
         }
     }
 
@@ -235,9 +252,8 @@ class EventModel extends WidgetModel {
         this._cache_listeners('mouseenter', view, enable_key_listen)
         this._cache_listeners('mouseleave', view, disable_key_listen)
     }
+    _supplement_mouse_positions(generating_view, event) {
 
-
-    _dom_click(generating_view, event) {
         // Get coordinates relative to the container
         let relative_xy = _get_position(generating_view, event)
         event['relativeX'] = relative_xy.x
@@ -261,6 +277,12 @@ class EventModel extends WidgetModel {
             event['arrayX'] = array_coords.x
             event['arrayY'] = array_coords.y
         }
+    }
+
+    _dom_click(generating_view, event) {
+        // Get coordinates relative to the container, and
+        // array (i.e. "natural") coordinates.
+        this._supplement_mouse_positions(generating_view, event)
 
         if ((event.type == 'wheel') || this.get('prevent_default_action')) {
             event.preventDefault()
@@ -268,6 +290,21 @@ class EventModel extends WidgetModel {
         this._send_dom_event(event)
     }
 
+    _set_xy(generating_view, event) {
+                // Get coordinates relative to the container, and
+        // array (i.e. "natural") coordinates.
+        this._supplement_mouse_positions(generating_view, event)
+        let coord_type = this.get('xy_coordinate_system')
+        let coords = [event[coord_type + 'X'], event[coord_type + 'Y']]
+        if (coords[0] === undefined) {
+            // The user likely asked for array/natural coordinates but
+            // they are not defined for this object. Let the user know...
+            console.error('No coordinates of this type found: ' + coord_type)
+            return;
+        }
+        this.set('xy', coords)
+        this.save_changes()
+    }
 
     _send_dom_event(event) {
         // Construct the event message. The message is a dictionary, with keys
@@ -290,7 +327,7 @@ class EventModel extends WidgetModel {
                 message_names = common_event_message_names.concat(key_standard_event_names)
                 break;
             default:
-                console.log('Not familiar with that message source')
+                console.error('Not familiar with that message source')
                 break;
         }
 

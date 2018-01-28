@@ -2,7 +2,7 @@ from ipywidgets import CoreWidget
 from ipywidgets import DOMWidget
 from ipywidgets.widgets.trait_types import InstanceDict
 from ipywidgets import register, widget_serialization, CallbackDispatcher
-from traitlets import Unicode, List, Bool, validate
+from traitlets import Unicode, List, Bool, validate, Tuple
 from ._version import EXTENSION_SPEC_VERSION
 
 
@@ -15,6 +15,8 @@ class Event(CoreWidget):
     watched_events = List().tag(sync=True)
     ignore_modifier_key_events = Bool(False).tag(sync=True)
     prevent_default_action = Bool(False).tag(sync=True)
+    xy_coordinate_system = Unicode(allow_none=True, default=None).tag(sync=True)
+    xy = List().tag(sync=True)
     _supported_mouse_events = List([
         'click',
         'auxclick',
@@ -38,6 +40,16 @@ class Event(CoreWidget):
         'keydown',
         'keyup'
     ]).tag(sync=True)
+
+    _xy_coordinate_system_allowed = [
+        None,       # Not tracking mouse x/y
+        'array',    # "natural" coordinates for the widget (e.g. image)
+        'client',   # Relative to the visible part of the web page
+        'offset',   # Relative to the padding edge of widget
+        'page',     # Relative to the whole document
+        'relative', # Relative to the widget
+        'screen'    # Relative to the screen
+    ]
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -63,6 +75,17 @@ class Event(CoreWidget):
             message = ('The event(s) {bad} are not supported. The supported '
                        'events are:\n {good}'.format(bad=bad_events,
                                                      good=supported_events))
+            raise ValueError(message)
+        return value
+
+    @validate('xy_coordinate_system')
+    def _xy_coordinate_system(self, proposal):
+        value = proposal['value']
+        if value not in self._xy_coordinate_system_allowed:
+            message = ('The coordinates {bad} are not supported. The '
+                       'supported coordinates are:'
+                       '\n {good}'.format(bad=value,
+                                          good=self._xy_coordinate_system_allowed))
             raise ValueError(message)
         return value
 
