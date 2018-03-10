@@ -41,8 +41,8 @@ let mouse_standard_event_message_names = [
 ]
 
 let mouse_added_event_message_names = [
-    'arrayX',
-    'arrayY',
+    'dataX',
+    'dataY',
     'relativeX',
     'relativeY'
 ]
@@ -258,10 +258,10 @@ class EventModel extends WidgetModel {
         let relative_xy = _get_position(generating_view, event)
         event['relativeX'] = relative_xy.x
         event['relativeY'] = relative_xy.y
-        if ('_array_xy' in generating_view) {
-            let array_coords = generating_view['_array_xy'](event)
-            event['arrayX'] = array_coords.x
-            event['arrayY'] = array_coords.y
+        if ('_data_xy' in generating_view) {
+            let data_coords = generating_view['_data_xy'](event)
+            event['dataX'] = data_coords.x
+            event['dataY'] = data_coords.y
         }
         else if (generating_view.model.get('_view_name') == 'ImageView') {
             // NO OTHER WIDGETS WILL BE SPECIAL CASED in this package.
@@ -270,18 +270,18 @@ class EventModel extends WidgetModel {
             // ipywidgets >= 7.0.0.
             //
             // If your custom widget has some special way of converting
-            // to an _array_xy then please add that method to the widget's
+            // to an _data_xy then please add that method to the widget's
             // view.
-            let array_coords = _click_location_original_image(generating_view,
+            let data_coords = _click_location_original_image(generating_view,
                                                               event);
-            event['arrayX'] = array_coords.x
-            event['arrayY'] = array_coords.y
+            event['dataX'] = data_coords.x
+            event['dataY'] = data_coords.y
         }
     }
 
     _dom_click(generating_view, event) {
         // Get coordinates relative to the container, and
-        // array (i.e. "natural") coordinates.
+        // data (i.e. "natural") coordinates.
         this._supplement_mouse_positions(generating_view, event)
 
         if ((event.type == 'wheel') || this.get('prevent_default_action')) {
@@ -292,12 +292,12 @@ class EventModel extends WidgetModel {
 
     _set_xy(generating_view, event) {
                 // Get coordinates relative to the container, and
-        // array (i.e. "natural") coordinates.
+        // data (i.e. "natural") coordinates.
         this._supplement_mouse_positions(generating_view, event)
         let coord_type = this.get('xy_coordinate_system')
         let coords = [event[coord_type + 'X'], event[coord_type + 'Y']]
         if (coords[0] === undefined) {
-            // The user likely asked for array/natural coordinates but
+            // The user likely asked for data/natural coordinates but
             // they are not defined for this object. Let the user know...
             console.error('No coordinates of this type found: ' + coord_type)
             return;
