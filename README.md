@@ -7,17 +7,28 @@ Python. Use it to:
  - add keyboard shortcuts to an existing widget;
  - react to the user clicking on an image;
  - install callbacks on arbitrary mouse and keyboard events.
- 
+
 See [this demo notebook](doc/Widget%20DOM%20Events.ipynb) for documentation.
 
 Installation
 ------------
 
-To install use pip:
+To install using `conda`:
+
+```bash
+$ conda install -c conda-forge ipyevents
+```
+
+To install use `pip`:
 
     $ pip install ipyevents
     $ jupyter nbextension enable --py --sys-prefix ipyevents
 
+To install with JupyterLab (whether you installed with `conda` or `pip`):
+
+```bash
+$ jupyter labextension install @jupyter-widgets/jupyterlab-manager ipyevents
+```
 
 For a development installation (requires npm),
 
