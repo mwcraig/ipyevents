@@ -43,7 +43,7 @@ class Event(CoreWidget):
 
     _xy_coordinate_system_allowed = [
         None,       # Not tracking mouse x/y
-        'array',    # "natural" coordinates for the widget (e.g. image)
+        'data',     # "natural" coordinates for the widget (e.g. image)
         'client',   # Relative to the visible part of the web page
         'offset',   # Relative to the padding edge of widget
         'page',     # Relative to the whole document
