@@ -44,7 +44,10 @@ let mouse_added_event_message_names = [
     'dataX',
     'dataY',
     'relativeX',
-    'relativeY'
+    'relativeY',
+    // Do NOT document the two below...they are deprecated.
+    'arrayX',
+    'arrayY'
 ]
 
 let wheel_standard_event_names = [
@@ -276,6 +279,12 @@ class EventModel extends WidgetModel {
                                                               event);
             event['dataX'] = data_coords.x
             event['dataY'] = data_coords.y
+        }
+        // The following is for backwards compatibility. It is deliberately
+        // no longer in the documentation.
+        if ('dataX' in event) {
+            event['arrayX'] = event['dataX']
+            event['arrayY'] = event['dataY']
         }
     }
 
