@@ -20,4 +20,4 @@ __version__ = '%s.%s.%s%s'%(version_info[0], version_info[1], version_info[2],
 #
 # Update this value when attributes are added/removed from
 # your models, or serialized format changes.
-EXTENSION_SPEC_VERSION = '1.3.1'
+EXTENSION_SPEC_VERSION = '1.3.2'
