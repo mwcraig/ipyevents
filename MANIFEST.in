@@ -1,2 +1,3 @@
 recursive-include ipyevents/static *.*
+recursive-include jupyter.d *.json
 include LICENSE.md
