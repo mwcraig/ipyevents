@@ -153,10 +153,13 @@ class EventModel extends WidgetModel {
             // this model as undefined.
             return
         }
+
+        // Check that the model has a view count
         if (! (typeof(current_model.get('_view_count')) === "number")) {
             // Sorry, but we need the view count...
             current_model.set('_view_count', 0)
         }
+
         this.listenTo(current_model, 'change:_view_count', this.update_listeners)
         this.update_listeners()
     }
