@@ -153,10 +153,13 @@ class EventModel extends WidgetModel {
             // this model as undefined.
             return
         }
+
+        // Check that the model has a view count
         if (! (typeof(current_model.get('_view_count')) === "number")) {
             // Sorry, but we need the view count...
             current_model.set('_view_count', 0)
         }
+
         this.listenTo(current_model, 'change:_view_count', this.update_listeners)
         this.update_listeners()
     }
@@ -232,6 +235,12 @@ class EventModel extends WidgetModel {
         //
         // The approach here is to add a key listener on mouseenter and remove
         // it on mouseleave.
+        //
+        // For JupyterLab we also need to grab the focus. Since this does not affect
+        // keypress handling in the notebook in any way, don't try to check whether
+        // we are in lab, just grab the focus.
+
+        // The actual handler is here.
         let key_handler = (event) => {
             // console.log('Key presses FTW!', event)
             if (this.get('ignore_modifier_key_events') &&
@@ -241,20 +250,78 @@ class EventModel extends WidgetModel {
             }
             this._send_dom_event(event)
             // Need this (and useCapture in the listener) to prevent the keypress
-            // from propagating to the notebook.
+            // from propagating to the notebook or browser.
             event.stopPropagation()
             event.preventDefault()
         }
+
+        // The remainder of this attaches the handler on mouseenter and
+        // removes it on mouseleave, ensuring that the element is focusable,
+        // that it grabs the focus, and adding a special class to focused
+        // elements to make it easier for users to override the style if
+        // they so desire.
+        //
+        // At the end everything is restored to the state it was in before the
+        // mouseenter.
+
         // Last argument useCapture needs to be true to prevent the event from
         // passing through to the notebook; also need to stopPropagation in key_handler.
+        // useCapture ensures the event handling occurs during the capture (first)
+        // phase of event handling.
         let capture_event = true
-        let enable_key_listen = () => {document.addEventListener(event_type, key_handler, capture_event)}
-        let disable_key_listen = () => {document.removeEventListener(event_type, key_handler, capture_event)}
+
+        // We should keep track of what had focus before we grabbed it so that
+        // we can restore it. In principle we could add a handler for the focus
+        // event and use relatedTarget to get (and then restore) the focus
+        // but this approach seems to work.
+        let focused_element = null
+
+        // Add a class to this element so that the user can easily change the
+        // styling when the element grabs the focus.
+        let ipyevents_style_name = 'ipyevents-watched'
+
+        // Use this to see if we added the tabindex, and if so, remove it when
+        // we are done.
+        let tab_index_ipyevents = "-4242"
+
+
+        let enable_key_listen = () => {
+            document.addEventListener(event_type, key_handler, capture_event)
+            // Record where the focus was previously
+            focused_element = document.activeElement
+            // Try to focus....
+            view.el.focus()
+
+            if (view.el != document.activeElement) {
+                // We didn't actually focus, so make sure the element can be focused...
+                view.el.setAttribute("tabindex", tab_index_ipyevents)
+                view.el.focus()
+            }
+            // Add a class to make styling easy
+            view.el.classList.add(ipyevents_style_name)
+        }
+        let disable_key_listen = () => {
+            document.removeEventListener(event_type, key_handler, capture_event)
+
+            // Remove the tabindex if we added it...
+            if (view.el.getAttribute("tabindex") == tab_index_ipyevents) {
+                view.el.removeAttribute("tabindex")
+            }
+
+            // No need for the styling class now that we don't have focus
+            view.el.classList.remove(ipyevents_style_name)
+
+            // Return to focus to wherever it was before we grabbed it
+            focused_element.focus()
+        }
+
+
         view.el.addEventListener('mouseenter', enable_key_listen)
         view.el.addEventListener('mouseleave', disable_key_listen)
         this._cache_listeners('mouseenter', view, enable_key_listen)
         this._cache_listeners('mouseleave', view, disable_key_listen)
     }
+
     _supplement_mouse_positions(generating_view, event) {
 
         // Get coordinates relative to the container
@@ -294,7 +361,10 @@ class EventModel extends WidgetModel {
         this._supplement_mouse_positions(generating_view, event)
 
         if ((event.type == 'wheel') || this.get('prevent_default_action')) {
+            // Really want both of these, one to stop any default action
+            // and the other to ensure no other listeners pick it up.
             event.preventDefault()
+            event.stopPropagation()
         }
         this._send_dom_event(event)
     }
