@@ -361,7 +361,10 @@ class EventModel extends WidgetModel {
         this._supplement_mouse_positions(generating_view, event)
 
         if ((event.type == 'wheel') || this.get('prevent_default_action')) {
+            // Really want both of these, one to stop any default action
+            // and the other to ensure no other listeners pick it up.
             event.preventDefault()
+            event.stopPropagation()
         }
         this._send_dom_event(event)
     }
