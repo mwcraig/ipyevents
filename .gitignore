@@ -10,3 +10,4 @@ ipyevents/static/
 
 # OS X
 .DS_Store
+js/lib
