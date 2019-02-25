@@ -11,4 +11,12 @@ install:
 
 script:
   # The package should at least be able to build itself...
-  - pip install -e .
+  - pip install .
+  # The nbextension should be installed
+  - jupyter nbextension list | grep ipyevents
+  # No serverextension should be installed, so list the installed
+  # extensions and grep for ipyevents. grep exits with status 1 if no match,
+  # so catch that and do something that always succeeds.
+  - $(jupyter serverextension list | grep ipyevents > ipyevents_lines.txt) || echo
+  # This will fail if ipyevents_lines.txt is not empty
+  - test ! -s ipyevents_lines.txt

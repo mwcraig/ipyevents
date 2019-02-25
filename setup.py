@@ -140,9 +140,6 @@ setup_args = {
         ('etc/jupyter/nbconfig/notebook.d', [
             'jupyter.d/notebook.d/ipyevents.json'
         ]),
-        ('etc/jupyter/jupyter_notebook_config.d', [
-            'jupyter.d/jupyter_notebook_config.d/ipyevents.json'
-        ])
     ],
     'install_requires': [
         'ipywidgets>=7.0.0',
