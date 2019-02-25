@@ -1,0 +1,14 @@
+language: python
+
+env:
+  global:
+    - CONDA_DEPENDENCIES: "ipywidgets nodejs"
+    - PYTHON_VERSION: "3.7"
+
+install:
+  - git clone --depth 1 git://github.com/astropy/ci-helpers.git
+  - source ci-helpers/travis/setup_conda.sh
+
+script:
+  # The package should at least be able to build itself...
+  - pip install -e .
