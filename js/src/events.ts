@@ -270,12 +270,6 @@ class EventModel extends WidgetModel {
         // phase of event handling.
         let capture_event = true
 
-        // We should keep track of what had focus before we grabbed it so that
-        // we can restore it. In principle we could add a handler for the focus
-        // event and use relatedTarget to get (and then restore) the focus
-        // but this approach seems to work.
-        let focused_element = null
-
         // Add a class to this element so that the user can easily change the
         // styling when the element grabs the focus.
         let ipyevents_style_name = 'ipyevents-watched'
@@ -287,8 +281,7 @@ class EventModel extends WidgetModel {
 
         let enable_key_listen = () => {
             document.addEventListener(event_type, key_handler, capture_event)
-            // Record where the focus was previously
-            focused_element = document.activeElement
+
             // Try to focus....
             view.el.focus()
 
@@ -311,8 +304,14 @@ class EventModel extends WidgetModel {
             // No need for the styling class now that we don't have focus
             view.el.classList.remove(ipyevents_style_name)
 
-            // Return to focus to wherever it was before we grabbed it
-            focused_element.focus()
+            // Remove focus from this element. An earlier version returned
+            // the focus to the element that previously had it, but that
+            // resulted in a bad user experience. The browser scrolled to
+            // whatever element had the focus previously, resulting in
+            // completely unexpected scrolls for the user. AFAICT the
+            // notebook remembers the focus independent of what is done
+            // here.
+            view.el.blur()
         }
 
 
