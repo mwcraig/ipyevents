@@ -1,3 +1,3 @@
 jupyter nbextension enable --py --sys-prefix ipyevents
 
-jupyter labextension install @jupyter-widgets/jupyterlab-manager ipyevents
+jupyter labextension install @jupyter-widgets/jupyterlab-manager ipyevents@latest

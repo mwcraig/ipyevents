@@ -4,5 +4,6 @@ channels:
 dependencies:
 - notebook=5.7
 - jupyterlab=0.35
+- ipywidgets=7.4
 - python=3.7
 - ipyevents
