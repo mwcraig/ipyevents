@@ -33,8 +33,20 @@ $ jupyter labextension install @jupyter-widgets/jupyterlab-manager ipyevents
 
 For a development installation (requires npm),
 
-    $ git clone https://github.com/mwcraig/ipyevents.git
-    $ cd ipyevents
-    $ pip install -e .
-    $ jupyter nbextension install --py --symlink --sys-prefix ipyevents
-    $ jupyter nbextension enable --py --sys-prefix ipyevents
+```bash
+$ git clone https://github.com/mwcraig/ipyevents.git
+$ cd ipyevents
+$ pip install -e .
+$ jupyter nbextension install --py --symlink --sys-prefix ipyevents
+$ jupyter nbextension enable --py --sys-prefix ipyevents
+```
+
+For Jupyter Lab also do this:
+
+```bash
+$ cd js
+$ npm install
+$ npm run build
+$ jupyter labextension install
+```
+

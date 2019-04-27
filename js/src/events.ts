@@ -10,7 +10,7 @@ import * as _ from 'underscore';
 
 // The names in the lists below are what will be sent as part of the
 // event message to the backend.
-// The actual list is constructed in _send_dom_message
+// The actual list is constructed in _send_dom_event
 
 let common_event_message_names = [
     'altKey',
@@ -45,6 +45,12 @@ let mouse_added_event_message_names = [
     'dataY',
     'relativeX',
     'relativeY',
+    'boundingRectWidth',
+    'boundingRectHeight',
+    'boundingRectTop',
+    'boundingRectLeft',
+    'boundingRectBottom',
+    'boundingRectRight',
     // Do NOT document the two below...they are deprecated.
     'arrayX',
     'arrayY'
@@ -346,6 +352,15 @@ class EventModel extends WidgetModel {
             event['dataX'] = data_coords.x
             event['dataY'] = data_coords.y
         }
+        // Also return the properties of the bounding rectangle
+        var bounding_rect = generating_view.el.getBoundingClientRect()
+        event['boundingRectWidth'] = bounding_rect.width
+        event['boundingRectHeight'] = bounding_rect.height
+        event['boundingRectTop'] = bounding_rect.top
+        event['boundingRectLeft'] = bounding_rect.left
+        event['boundingRectBottom'] = bounding_rect.bottom
+        event['boundingRectRight'] = bounding_rect.right
+
         // The following is for backwards compatibility. It is deliberately
         // no longer in the documentation.
         if ('dataX' in event) {
