@@ -1,6 +1,6 @@
 {
   "name": "ipyevents",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "A custom widget for returning mouse and keyboard events to Python",
   "author": "Matt Craig",
   "license": "BSD-3-Clause",
