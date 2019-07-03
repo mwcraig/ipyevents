@@ -38,7 +38,7 @@
   "dependencies": {
     "@phosphor/application": "^1.5.0",
     "@phosphor/widgets": "^1.5.0",
-    "@jupyter-widgets/base": "^1.0.4",
+    "@jupyter-widgets/base": "^1.0.4 || ^2",
     "@jupyter-widgets/controls": "^1.0.5",
     "lodash": "^4.17.4"
   },
