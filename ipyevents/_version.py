@@ -1,7 +1,7 @@
 # What a full version specifier looks like:
 # version_info = (0, 0, 1, 'alpha', 0)
 
-version_info = (0, 5, 1, 'dev', 0)
+version_info = (0, 6, 0, 'final', 0)
 
 _specifier_ = {
         'dev': 'dev',
@@ -20,4 +20,4 @@ __version__ = '%s.%s.%s%s'%(version_info[0], version_info[1], version_info[2],
 #
 # Update this value when attributes are added/removed from
 # your models, or serialized format changes.
-EXTENSION_SPEC_VERSION = '1.5.0'
+EXTENSION_SPEC_VERSION = '1.6.0'
