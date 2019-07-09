@@ -1,3 +1,5 @@
-recursive-include ipyevents/static *.*
-recursive-include jupyter.d *.json
+recursive-include ipyevents/nbextension/static *.*
+
 include LICENSE.md
+
+include setupbase.py
