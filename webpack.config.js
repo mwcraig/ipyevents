@@ -48,22 +48,22 @@ module.exports = [
    * The target bundle is always `dist/index.js`, which is the path required by
    * the custom widget embedder.
    */
-  {
-    entry: './src/index.ts',
-    output: {
-        filename: 'index.js',
-        path: path.resolve(__dirname, 'dist'),
-        libraryTarget: 'amd',
-        library: "ipyevents",
-        publicPath: 'https://unpkg.com/ipyevents@' + version + '/dist/'
-    },
-    devtool: 'source-map',
-    module: {
-        rules: rules
-    },
-    externals,
-    resolve,
-  },
+  // {
+  //   entry: './src/index.ts',
+  //   output: {
+  //       filename: 'index.js',
+  //       path: path.resolve(__dirname, 'dist'),
+  //       libraryTarget: 'amd',
+  //       library: "ipyevents",
+  //       publicPath: 'https://unpkg.com/ipyevents@' + version + '/dist/'
+  //   },
+  //   devtool: 'source-map',
+  //   module: {
+  //       rules: rules
+  //   },
+  //   externals,
+  //   resolve,
+  // },
 
 
   /**
@@ -75,7 +75,7 @@ module.exports = [
     entry: './src/index.ts',
     output: {
       filename: 'embed-bundle.js',
-      path: path.resolve(__dirname, 'docs', 'source', '_static'),
+      path: path.resolve(__dirname, 'doc', 'source', '_static'),
       library: "ipyevents",
       libraryTarget: 'amd'
     },
