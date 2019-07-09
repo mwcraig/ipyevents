@@ -49,7 +49,7 @@
     "watch:nbextension": "webpack --watch"
   },
   "dependencies": {
-    "@jupyter-widgets/base": "^1.0.4 || ^2",
+    "@jupyter-widgets/base": "^1.0.4 || ^2"
   },
   "devDependencies": {
     "@phosphor/application": "^1.6.0",
