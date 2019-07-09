@@ -95,55 +95,5 @@ setup_args = dict(
     },
 )
 
-# setup_args = {
-#     'name': 'ipyevents',
-#     'version': version_ns['__version__'],
-#     'description': 'A custom widget for returning mouse and keyboard events to Python',
-#     'long_description': LONG_DESCRIPTION,
-#     'license': 'BSD 3-clause',
-#     'include_package_data': True,
-#     'data_files': [
-#         ('share/jupyter/nbextensions/ipyevents', [
-#             'ipyevents/static/extension.js',
-#             'ipyevents/static/index.js',
-#             'ipyevents/static/index.js.map',
-#         ]),
-#         ('etc/jupyter/nbconfig/notebook.d', [
-#             'jupyter.d/notebook.d/ipyevents.json'
-#         ]),
-#     ],
-#     'install_requires': [
-#         'ipywidgets>=7.0.0',
-#     ],
-#     'packages': find_packages(),
-#     'zip_safe': False,
-#     'cmdclass': {
-#         'build_py': js_prerelease(build_py),
-#         'egg_info': js_prerelease(egg_info),
-#         'sdist': js_prerelease(sdist, strict=True),
-#         'jsdeps': NPM,
-#     },
-
-#     'author': 'Matt Craig',
-#     'author_email': 'mattwcraig@gmail.com',
-#     'url': 'https://github.com/mwcraig/ipyevents',
-#     'keywords': [
-#         'ipython',
-#         'jupyter',
-#         'widgets',
-#     ],
-#     'classifiers': [
-#         'Development Status :: 4 - Beta',
-#         'Framework :: IPython',
-#         'Intended Audience :: Developers',
-#         'Intended Audience :: Science/Research',
-#         'Topic :: Multimedia :: Graphics',
-#         'Programming Language :: Python :: 3',
-#         'Programming Language :: Python :: 3.3',
-#         'Programming Language :: Python :: 3.4',
-#         'Programming Language :: Python :: 3.5',
-#     ],
-# }
-
 if __name__ == "__main__":
     setup(**setup_args)
