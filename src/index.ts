@@ -7,9 +7,13 @@
 // dynamically.
 
 // Let typescript know that this is a global variable defined elsewhere
-declare var __webpack_public_path__
+// declare var __webpack_public_path__
 
-__webpack_public_path__ = document.querySelector('body').getAttribute('data-base-url') + 'nbextensions/ipyevents/';
+// __webpack_public_path__ = document.querySelector('body').getAttribute('data-base-url') + 'nbextensions/ipyevents/';
 
-// Export widget models and views, and the npm package version number.
-module.exports = require('./events.js');
+// // Export widget models and views, and the npm package version number.
+// module.exports = require('./events.js');
+
+
+export * from './version';
+export * from './events';

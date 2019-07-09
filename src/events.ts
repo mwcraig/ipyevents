@@ -1,5 +1,5 @@
 import {
-    WidgetModel, WidgetView, DOMWidgetView, unpack_models
+    WidgetModel, unpack_models
 } from '@jupyter-widgets/base';
 
 import {
@@ -201,7 +201,6 @@ class EventModel extends WidgetModel {
                     this._add_key_listener(event, view)
                     break
                 case "mouse":
-                    let prevent_default = this.get('prevent_default_action')
                     let handler = this._dom_click.bind(this, view)
                     view.el.addEventListener(event, handler)
                     // Keep track of the listeners we are attaching so that we can
@@ -215,7 +214,6 @@ class EventModel extends WidgetModel {
         }
         // Also add listeners to support populating the x/y traits
         if (this.get('xy_coordinate_system')) {
-            let prevent_default = this.get('prevent_default_action')
             let handler = this._set_xy.bind(this, view)
             let event = 'mousemove'
             view.el.addEventListener(event, handler)
