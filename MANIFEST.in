@@ -1,5 +1,9 @@
 recursive-include ipyevents/nbextension/static *.*
+recursive-include src *.*
 
 include LICENSE.md
-
+include ipyevents.json
+include package.json
 include setupbase.py
+include tsconfig.json
+include webpack.config.js
