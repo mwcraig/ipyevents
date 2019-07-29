@@ -287,12 +287,12 @@ class EventModel extends WidgetModel {
             document.addEventListener(event_type, key_handler, capture_event)
 
             // Try to focus....
-            view.el.focus()
+            view.el.focus({preventScroll:true})
 
             if (view.el != document.activeElement) {
                 // We didn't actually focus, so make sure the element can be focused...
                 view.el.setAttribute("tabindex", tab_index_ipyevents)
-                view.el.focus()
+                view.el.focus({preventScroll:true})
             }
             // Add a class to make styling easy
             view.el.classList.add(ipyevents_style_name)
