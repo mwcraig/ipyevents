@@ -44,7 +44,6 @@ $ jupyter nbextension enable --py --sys-prefix ipyevents
 For Jupyter Lab also do this:
 
 ```bash
-$ cd js
 $ npm install
 $ npm run build
 $ jupyter labextension install
