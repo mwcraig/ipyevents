@@ -102,5 +102,9 @@ class Event(CoreWidget):
         """
         self._dom_handlers.register_callback(callback, remove=remove)
 
+    def reset_callbacks(self):
+        """Remove any previously defined callback."""
+        self._dom_handlers.callbacks.clear()
+
     def _handle_mouse_msg(self, _, content, buffers):
         self._dom_handlers(content)
