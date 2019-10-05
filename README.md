@@ -11,6 +11,8 @@ Python. Use it to:
 
 See [this demo notebook](doc/Widget%20DOM%20Events.ipynb) for documentation.
 
+Special thanks to the [contributors to `ipyevents`](CONTRIBUTORS.md)!
+
 Installation
 ------------
 
@@ -48,4 +50,3 @@ $ npm install
 $ npm run build
 $ jupyter labextension install
 ```
-
