@@ -14,7 +14,7 @@ LONG_DESCRIPTION = 'A custom widget for returning mouse and keyboard events to P
 name = 'ipyevents'
 
 # Ensure a valid python version
-ensure_python('>=3.5')
+ensure_python('>=3.6')
 
 # Get our version
 version = get_version(pjoin(name, '_version.py'))
