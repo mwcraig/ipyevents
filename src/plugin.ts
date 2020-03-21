@@ -1,10 +1,10 @@
 import {
   Application, IPlugin
-} from '@phosphor/application';
+} from '@lumino/application';
 
 import {
   Widget
-} from '@phosphor/widgets';
+} from '@lumino/widgets';
 
 import {
   IJupyterWidgetRegistry
