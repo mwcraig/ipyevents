@@ -52,8 +52,6 @@
     "@jupyter-widgets/base": "^1.0.4 || ^2 || ^3"
   },
   "devDependencies": {
-    "@lumino/application": "^1.7.3",
-    "@lumino/widgets": "^1.9.3",
     "@types/expect.js": "^0.3.29",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.11.6",

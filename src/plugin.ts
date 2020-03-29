@@ -1,45 +1,14 @@
-import {
-  Application, IPlugin
-} from '@lumino/application';
-
-import {
-  Widget
-} from '@lumino/widgets';
-
-import {
-  IJupyterWidgetRegistry
- } from '@jupyter-widgets/base';
-
-import {
-  EventModel
-} from './events';
-
-import {
-  EXTENSION_SPEC_VERSION
-} from './version';
-
-/**
- * The example plugin.
- */
-const ipyeventsPlugin: IPlugin<Application<Widget>, void> = {
+var plugin = require('./index')
+var base = require('@jupyter-widgets/base')
+module.exports = {
   id: 'ipyevents',
-  requires: [IJupyterWidgetRegistry],
-  activate: activateWidgetExtension,
+  requires: [base.IJupyterWidgetRegistry],
+  activate: function(app, widgets) {
+      widgets.registerWidget({
+          name: 'ipyevents',
+          version: plugin.EXTENSION_SPEC_VERSION,
+          exports: plugin
+      });
+  },
   autoStart: true
 };
-
-export default ipyeventsPlugin;
-
-
-/**
- * Activate the widget extension.
- */
-function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWidgetRegistry): void {
-  registry.registerWidget({
-    name: 'ipyevents',
-    version: EXTENSION_SPEC_VERSION,
-    exports: {
-      EventModel: EventModel
-    }
-  });
-}
