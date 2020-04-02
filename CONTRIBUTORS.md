@@ -4,6 +4,7 @@
 + Pascal Bugnion ([@pbugnion](https://github.com/pbugnion))
 + Sylvain Corlay ([@SylvainCorlay](https://github.com/SylvainCorlay))
 + Matt Craig ([@mwcraig](https://github.com/mwcraig)), maintainer
++ Simon Gurcke ([@itssimon](https://github.com/itssimon))
 + Prabhu Ramachandran ([@prabhuramachandran](https://github.com/prabhuramachandran))
 + Thomas Robitaille ([@astrofrog](https://github.com/astrofrog))
 + Jeremy Tuloup ([@jtpio](https://github.com/jtpio))
