@@ -2,7 +2,7 @@ from ipywidgets import CoreWidget
 from ipywidgets import DOMWidget
 from ipywidgets.widgets.trait_types import InstanceDict
 from ipywidgets import register, widget_serialization, CallbackDispatcher
-from traitlets import Unicode, List, Bool, validate, Tuple
+from traitlets import Unicode, List, Bool, validate, Tuple, Integer
 from ._version import EXTENSION_SPEC_VERSION
 
 
@@ -17,6 +17,8 @@ class Event(CoreWidget):
     prevent_default_action = Bool(False).tag(sync=True)
     xy_coordinate_system = Unicode(allow_none=True).tag(sync=True, default=None)
     xy = List().tag(sync=True)
+    wait = Integer().tag(sync=True, default=0)
+    throttle_or_debounce = Unicode(allow_none=True).tag(sync=True, default=None)
     _supported_mouse_events = List([
         'click',
         'auxclick',
@@ -49,6 +51,14 @@ class Event(CoreWidget):
         'page',     # Relative to the whole document
         'relative', # Relative to the widget
         'screen'    # Relative to the screen
+    ]
+
+    _throttle_debounce_allowed = [
+        None,       # No throttling or debounce
+        'throttle', # Throttle the rate at which events are
+                    # passed from front end to back.
+        'debounce'  # Debounce events, i.e. impose minimum delay before
+                    # triggering events from the front end to the back.
     ]
 
     def __init__(self, **kwargs):
@@ -86,6 +96,28 @@ class Event(CoreWidget):
                        'supported coordinates are:'
                        '\n {good}'.format(bad=value,
                                           good=self._xy_coordinate_system_allowed))
+            raise ValueError(message)
+        return value
+
+    @validate('wait')
+    def _validate_wait(self, proposal):
+        value = proposal['value']
+        if value < 0:
+            message = ('wait must be set to a non-negative integer. ')
+            raise ValueError(message)
+        elif not self.throttle_or_debounce:
+            self.throttle_or_debounce = 'throttle'
+
+        return value
+
+    @validate('throttle_or_debounce')
+    def _validate_throttle_debounce(self, proposal):
+        value = proposal['value']
+        if value not in self._throttle_debounce_allowed:
+            message = ('The event rate limiting method {bad} is not supported. '
+                       'The supported methods are:'
+                       '\n {good}'.format(bad=value,
+                                          good=self._throttle_debounce_allowed))
             raise ValueError(message)
         return value
 
