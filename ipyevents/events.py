@@ -15,7 +15,7 @@ class Event(CoreWidget):
     watched_events = List().tag(sync=True)
     ignore_modifier_key_events = Bool(False).tag(sync=True)
     prevent_default_action = Bool(False).tag(sync=True)
-    xy_coordinate_system = Unicode(allow_none=True, default=None).tag(sync=True)
+    xy_coordinate_system = Unicode(allow_none=True).tag(sync=True, default=None)
     xy = List().tag(sync=True)
     _supported_mouse_events = List([
         'click',
