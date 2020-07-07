@@ -4,6 +4,8 @@ dist/
 build/
 *.py[cod]
 node_modules/
+htmlcov
+.coverage
 
 # Compiled javascript
 ipyevents/static/
