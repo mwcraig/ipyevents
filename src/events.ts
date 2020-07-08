@@ -109,6 +109,8 @@ class EventModel extends WidgetModel {
             prevent_default_action: false,
             xy_coordinate_system: null,
             xy: [],
+            wait: 0,
+            throttle_or_debounce: null,
             _supported_mouse_events: [],
             _supported_key_events: [],
             _modifier_keys: ['Shift', 'Control', 'Alt', 'Meta']
@@ -116,10 +118,12 @@ class EventModel extends WidgetModel {
     }
 
     initialize(attributes, options: {model_id: string, comm?: any, widget_manager: any}) {
-        super.initialize(attributes, options);
+        super.initialize(attributes, options)
         this.on('change:source', this.prepare_source, this)
         this.on('change:watched_events', this.update_listeners, this)
         this.on('change:xy_coordinate_system', this.update_listeners, this)
+        this.on('change:wait', this.update_listeners, this)
+        this.on('change:throttle_or_debounce', this.update_listeners, this)
         this.prepare_source()
     }
 
@@ -201,11 +205,14 @@ class EventModel extends WidgetModel {
                     this._add_key_listener(event, view)
                     break
                 case "mouse":
-                    let handler = this._dom_click.bind(this, view)
-                    view.el.addEventListener(event, handler)
+                    let main_event_handler = this._throttle_or_debounce(this._dom_click.bind(this, view))
+                    let event_propagation_handler = this._prevent_event_propagation.bind(this, view)
+                    view.el.addEventListener(event, main_event_handler)
+                    view.el.addEventListener(event, event_propagation_handler)
                     // Keep track of the listeners we are attaching so that we can
                     // remove them if needed.
-                    this._cache_listeners(event, view, handler)
+                    this._cache_listeners(event, view, main_event_handler)
+                    this._cache_listeners(event, view, event_propagation_handler)
                     break
                 default:
                     console.error('Not familiar with that message source')
@@ -214,10 +221,13 @@ class EventModel extends WidgetModel {
         }
         // Also add listeners to support populating the x/y traits
         if (this.get('xy_coordinate_system')) {
-            let handler = this._set_xy.bind(this, view)
+            let main_event_handler = this._throttle_or_debounce(this._set_xy.bind(this, view))
+            let event_propagation_handler = this._prevent_event_propagation.bind(this, view)
             let event = 'mousemove'
-            view.el.addEventListener(event, handler)
-            this._cache_listeners(event, view, handler)
+            view.el.addEventListener(event, main_event_handler)
+            view.el.addEventListener(event, event_propagation_handler)
+            this._cache_listeners(event, view, main_event_handler)
+            this._cache_listeners(event, view, event_propagation_handler)
         }
     }
 
@@ -282,6 +292,7 @@ class EventModel extends WidgetModel {
         // we are done.
         let tab_index_ipyevents = "-4242"
 
+        key_handler = this._throttle_or_debounce(key_handler)
 
         let enable_key_listen = () => {
             document.addEventListener(event_type, key_handler, capture_event)
@@ -372,12 +383,7 @@ class EventModel extends WidgetModel {
         // data (i.e. "natural") coordinates.
         this._supplement_mouse_positions(generating_view, event)
 
-        if ((event.type == 'wheel') || this.get('prevent_default_action')) {
-            // Really want both of these, one to stop any default action
-            // and the other to ensure no other listeners pick it up.
-            event.preventDefault()
-            event.stopPropagation()
-        }
+        // Send message to the kernel
         this._send_dom_event(event)
     }
 
@@ -427,6 +433,46 @@ class EventModel extends WidgetModel {
         }
         event_message['event'] = event['type']
         this.send(event_message, {})
+    }
+
+    _prevent_event_propagation(generating_view, event) {
+        // This was once in _dom_click, which handles mouse events. However, when
+        // throttling or debouncing, event propagataion won't be stopped if
+        // _dom_click is throttled or debounced.
+        //
+        // Moving the propagation handling here allows it to be attached to
+        // the dom element without being throttled. The performance hit
+        // should be minor, and, in any event, is necessary for scrolling to
+        // be throttled/debounced.
+
+        if ((event.type == 'wheel') || this.get('prevent_default_action')) {
+            // Really want both of these, one to stop any default action
+            // and the other to ensure no other listeners pick it up.
+            event.preventDefault()
+            event.stopPropagation()
+        }
+    }
+
+    _throttle_or_debounce(handler) {
+        // Add throttle or debounce to handler as long as wait is non-zero.
+        //
+        // If debounce is the method set in initialization, use debounce,
+        // otherwise throttle.
+        //
+        // We'll let the Python side take care of making sure that only valid
+        // methods can be set.
+        let wait = this.get('wait')
+        let method = this.get('throttle_or_debounce')
+        if (wait > 0 ){
+            if (method == 'debounce') {
+                return _.debounce(handler, wait)
+            }
+            else {
+                return _.throttle(handler, wait)
+            }
+        }
+        else
+            return handler
     }
 }
 

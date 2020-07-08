@@ -2,7 +2,7 @@ language: python
 
 env:
   global:
-    - CONDA_DEPENDENCIES: "ipywidgets nodejs"
+    - CONDA_DEPENDENCIES: "ipywidgets nodejs pytest"
     - PYTHON_VERSION: "3.7"
 
 install:
@@ -20,3 +20,4 @@ script:
   - $(jupyter serverextension list | grep ipyevents > ipyevents_lines.txt) || echo
   # This will fail if ipyevents_lines.txt is not empty
   - test ! -s ipyevents_lines.txt
+  - pytest ipyevents
