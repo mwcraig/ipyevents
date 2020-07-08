@@ -8,6 +8,65 @@ from ._version import EXTENSION_SPEC_VERSION
 
 @register
 class Event(CoreWidget):
+    """
+    Add browser event handling to a jupyter widget.
+
+    Parameters
+    ----------
+
+    source : ipywidgets-compatible widget
+        The widget to be watched for events.
+
+    watched_events : list
+        List of the browser events to observe on the source.
+
+    ignore_modifier_key_events : bool
+        If ``True``, ignore key presses of modifier keys
+        ('Shift', 'Control', 'Alt', 'Meta'). Useful when keys mouse events
+        with modifiers are watched but you want ot ignore the modifiers by
+        themselves. Default is ``False``.
+
+    prevent_default_actions : bool
+        If ``True``, do not carry out default action associated with browser
+        event. One use is to prevent the browser's display of a context menu
+        when right-clicking. Default is ``False``.
+
+    xy_coordinate_system : str or ``None``
+        If not ``None``, set the ``xy`` attribute to the current mouse
+        position. Use `data` to get the coordinates in whatever is most
+        "natural" for the widget (e.g. pixel location in an image). The
+        full list of allowed coordinate systems is available through
+        the ``supported_xy_coordinates`` attribute of the
+        `~ipyevents.Event` widget.
+
+    throttle_or_debounce : {``None``, 'throttle', 'debounce'}
+        Method to use, if any, for limiting event rate. 'throttle is primarily
+        useful for 'mousemove' and 'wheel' events. 'debounce' can be useful
+        for limiting repeated key strokes or clicks. In a nutshell, throtttling
+        sets a limit on the rate at which events will be passed while
+        debouncing imposes a minimum time between events before a new event is
+        passed. Default is ``None``.
+
+    wait : int
+        The wait time, in milliseconds, for throttling or debouncing.
+
+    Properties
+    ----------
+
+    xy : tuple of int or float
+        Location of mouse, only set if `~ipyevents.Event.xy_coordinate_system`
+        is not ``None``.
+
+    supported_key_events
+        List of keyboard events that can be watched.
+
+    supported_mouse_events
+        List of mouse events that can be watched.
+
+    supported_xy_coordinates
+        List of supported xy coordinate systems that can be returned
+        in `~ipyevents.Event.xy`.
+    """
     _model_name = Unicode('EventModel').tag(sync=True)
     _model_module = Unicode('ipyevents').tag(sync=True)
     _model_module_version = Unicode(EXTENSION_SPEC_VERSION).tag(sync=True)
