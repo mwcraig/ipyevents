@@ -74,6 +74,10 @@ class Event(CoreWidget):
     def supported_mouse_events(self):
         return self._supported_mouse_events
 
+    @property
+    def supported_xy_coordinates(self):
+        return self._xy_coordinate_system_allowed
+
     @validate('watched_events')
     def _validate_watched_events(self, proposal):
         value = proposal['value']
