@@ -17,5 +17,6 @@
 # clean out the `dist` and `node_modules` directories
 git clean -fdx
 npm install
+npm run build
 npm publish
 ```
