@@ -88,7 +88,7 @@ def test_floating_point_wait_raises_error():
     with pytest.raises(traitlets.traitlets.TraitError) as e:
         event_widget.wait = 15.0
 
-    assert "The 'wait' trait of an Event instance must be an int, but a value of" in str(e)
+    assert "'wait' trait of an Event instance" in str(e)
 
 
 def test_setting_xy_coordinate_bad_value():
