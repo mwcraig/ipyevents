@@ -4,7 +4,7 @@
 + git add the _version.py file and git commit
 + `python setup.py sdist`
 + `python setup.py bdist_wheel`
-+ `twine upload dist/*`
++ `twine upload dist/ipyevents*`
 + `git tag -a X.X.X -m 'comment'`
 + Update _version.py (add 'dev' and increment minor)
 + git add and git commit
