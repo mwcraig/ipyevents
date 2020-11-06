@@ -465,10 +465,18 @@ class EventModel extends WidgetModel {
         let method = this.get('throttle_or_debounce')
         if (wait > 0 ){
             if (method == 'debounce') {
-                return _.debounce(handler, wait)
+                return (event)=>{
+		    event.preventDefault();
+		    event.stopPropagation();
+		    _.debounce(handler, wait)(event);
+		}
             }
             else {
-                return _.throttle(handler, wait)
+                return (event)=>{
+		    event.preventDefault();
+		    event.stopPropagation();
+		    _.throttle(handler, wait)(event);
+		}
             }
         }
         else
