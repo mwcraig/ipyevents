@@ -74,6 +74,12 @@ let key_standard_event_names = [
     'repeat'
 ]
 
+let target_property_names = [
+    'tagName',
+    'id',
+    'className',
+]
+
 let listener_cache = {}
 
 function _get_position(view, event) {
@@ -408,7 +414,7 @@ class EventModel extends WidgetModel {
         // determined by the type of event from the list of event names above.
         //
         // Values are drawn from the DOM event object.
-        let event_message = {}
+        let event_message = {target: {}}
         let message_names = []
         switch (this.key_or_mouse(event.type)) {
             case "mouse":
@@ -430,6 +436,9 @@ class EventModel extends WidgetModel {
 
         for (let i of message_names) {
             event_message[i] = event[i]
+        }
+        for (let i of target_property_names) {
+            event_message["target"][i] = event.target[i]
         }
         event_message['event'] = event['type']
         this.send(event_message, {})
