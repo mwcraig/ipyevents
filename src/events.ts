@@ -119,6 +119,7 @@ class EventModel extends WidgetModel {
             throttle_or_debounce: null,
             _supported_mouse_events: [],
             _supported_key_events: [],
+            _supported_touch_events: [],
             _modifier_keys: ['Shift', 'Control', 'Alt', 'Meta']
         });
     }
@@ -133,12 +134,15 @@ class EventModel extends WidgetModel {
         this.prepare_source()
     }
 
-    key_or_mouse(event_type) {
+    key_mouse_or_touch(event_type) {
         if (_.contains(this.get('_supported_mouse_events'), event_type)) {
             return 'mouse'
         }
         if (_.contains(this.get('_supported_key_events'), event_type)) {
             return 'keyboard'
+        }
+        if (_.contains(this.get('_supported_touch_events'), event_type)) {
+            return 'touch'
         }
     }
 
@@ -206,10 +210,11 @@ class EventModel extends WidgetModel {
     _add_listeners_to_view(view) {
         // Add listeners for each of the watched events
         for (let event of this.get('watched_events')) {
-            switch (this.key_or_mouse(event)) {
+            switch (this.key_mouse_or_touch(event)) {
                 case "keyboard":
                     this._add_key_listener(event, view)
                     break
+                case "touch":
                 case "mouse":
                     let main_event_handler = this._throttle_or_debounce(this._dom_click.bind(this, view))
                     let event_propagation_handler = this._prevent_event_propagation.bind(this, view)
@@ -416,7 +421,8 @@ class EventModel extends WidgetModel {
         // Values are drawn from the DOM event object.
         let event_message = {target: {}}
         let message_names = []
-        switch (this.key_or_mouse(event.type)) {
+        switch (this.key_mouse_or_touch(event.type)) {
+            case "touch":
             case "mouse":
                 message_names = common_event_message_names.concat(mouse_standard_event_message_names)
                 message_names = message_names.concat(mouse_added_event_message_names)
