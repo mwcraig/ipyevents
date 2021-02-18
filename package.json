@@ -50,7 +50,7 @@
     "watch:nbextension": "webpack --watch"
   },
   "dependencies": {
-    "@jupyter-widgets/base": "^1.0.4 || ^2 || ^3"
+    "@jupyter-widgets/base": "^1.0.4 || ^2 || ^3 || ^4"
   },
   "devDependencies": {
     "@types/expect.js": "^0.3.29",
