@@ -9,7 +9,12 @@ on:
 
 jobs:
   ci-tests:
-    runs-on: 'ubuntu-latest'
+    strategy:
+      max-parallel: 4
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
     steps:
     - name: Check out repository
       uses: actions/checkout@v2
@@ -28,6 +33,7 @@ jobs:
       run: |
         jupyter nbextension list | grep ipyevents
     - name: Check labextension is installed
+      shell: bash
       run: |
         jupyter labextension list
         $(jupyter labextension list | grep ipyevents > ipyevents_lines.txt) || echo

@@ -8,7 +8,10 @@ htmlcov
 .coverage
 
 # Compiled javascript
-ipyevents/static/
+ipyevents/nbextension/
+ipyevents/labextension/
+doc/source
+lib
 
 # OS X
 .DS_Store
