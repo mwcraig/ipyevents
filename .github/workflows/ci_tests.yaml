@@ -33,6 +33,7 @@ jobs:
       run: |
         jupyter nbextension list | grep ipyevents
     - name: Check labextension is installed
+      shell: bash
       run: |
         jupyter labextension list
         $(jupyter labextension list | grep ipyevents > ipyevents_lines.txt) || echo
