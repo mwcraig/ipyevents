@@ -9,7 +9,12 @@ on:
 
 jobs:
   ci-tests:
-    runs-on: 'ubuntu-latest'
+    strategy:
+      max-parallel: 4
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
     steps:
     - name: Check out repository
       uses: actions/checkout@v2
