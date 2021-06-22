@@ -6,6 +6,7 @@
 + Matt Craig ([@mwcraig](https://github.com/mwcraig)), maintainer
 + Simon Gurcke ([@itssimon](https://github.com/itssimon))
 + Prabhu Ramachandran ([@prabhuramachandran](https://github.com/prabhuramachandran))
++ Waldemar Reusch ([@lordvlad](https://github.com/lordvlad))
 + Thomas Robitaille ([@astrofrog](https://github.com/astrofrog))
 + Jeremy Tuloup ([@jtpio](https://github.com/jtpio))
 + Peter Williams ([@pkgw](https://github.com/pkgw))
