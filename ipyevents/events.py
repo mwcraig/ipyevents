@@ -63,6 +63,9 @@ class Event(CoreWidget):
     supported_mouse_events
         List of mouse events that can be watched.
 
+    supported_touch_events
+        List of touch events that can be watched.
+
     supported_xy_coordinates
         List of supported xy coordinate systems that can be returned
         in `~ipyevents.Event.xy`.
