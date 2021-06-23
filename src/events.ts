@@ -21,26 +21,18 @@ let common_event_message_names = [
     'timeStamp'
 ]
 
-let mouse_standard_event_message_names = [
-    'button',
-    'buttons',
+// MouseEvent and Touch events have some properties in common, so we
+// group those together.
+let mouse_and_touch_common_event_message_names = [
     'clientX',
     'clientY',
-    'layerX',
-    'layerY',
-    'movementX',
-    'movementY',
-    'offsetX',
-    'offsetY',
     'pageX',
     'pageY',
     'screenX',
     'screenY',
-    'x',
-    'y'
 ]
 
-let mouse_added_event_message_names = [
+let mouse_and_touch_added_event_message_names = [
     'dataX',
     'dataY',
     'relativeX',
@@ -56,11 +48,47 @@ let mouse_added_event_message_names = [
     'arrayY'
 ]
 
+// In addition to the common properties above, mouse events have these
+// properties that Touch events do not have.
+let mouse_standard_event_message_names = [
+    'button',
+    'buttons',
+    // 'clientX',
+    // 'clientY',
+    'layerX',
+    'layerY',
+    'movementX',
+    'movementY',
+    'offsetX',
+    'offsetY',
+    // 'pageX',
+    // 'pageY',
+    // 'screenX',
+    // 'screenY',
+    'x',
+    'y'
+]
+
+// WheelEvent also has some properties specific to it
 let wheel_standard_event_names = [
     'deltaX',
     'deltaY',
     'deltaZ',
     'deltaMode'
+]
+
+// For the TouchEvent object -- each of these is a list
+// of Touch events.
+let touch_event_standard_event_names = [
+    'changedTouches',
+    'targetTouches',
+    'touches'
+]
+
+// Touch also has a couple of properties specific to that kind
+// of event
+let touch_standard_event_names = [
+    'identifier'
 ]
 
 let drag_standard_event_names = [
@@ -347,6 +375,22 @@ class EventModel extends WidgetModel {
         this._cache_listeners('mouseleave', view, disable_key_listen)
     }
 
+    _supplement_mouse_or_touch_positions(generating_view, event) {
+        // Event may be a single event, like a mouse click or wheel event, or a
+        // TouchEvent, which has several lists of Touch each of which needs
+        // supplementing.
+        if (this.key_mouse_or_touch(event.type) == 'touch') {
+            for (let touch_list of touch_event_standard_event_names) {
+                for (let touch of event[touch_list]) {
+                    this._supplement_mouse_positions(generating_view, touch)
+                }
+            }
+
+        } else {
+            this._supplement_mouse_positions(generating_view, event)
+        }
+    }
+
     _supplement_mouse_positions(generating_view, event) {
 
         // Get coordinates relative to the container
@@ -392,16 +436,16 @@ class EventModel extends WidgetModel {
     _dom_click(generating_view, event) {
         // Get coordinates relative to the container, and
         // data (i.e. "natural") coordinates.
-        this._supplement_mouse_positions(generating_view, event)
+        this._supplement_mouse_or_touch_positions(generating_view, event)
 
         // Send message to the kernel
         this._send_dom_event(event)
     }
 
     _set_xy(generating_view, event) {
-                // Get coordinates relative to the container, and
+        // Get coordinates relative to the container, and
         // data (i.e. "natural") coordinates.
-        this._supplement_mouse_positions(generating_view, event)
+        this._supplement_mouse_or_touch_positions(generating_view, event)
         let coord_type = this.get('xy_coordinate_system')
         let coords = [event[coord_type + 'X'], event[coord_type + 'Y']]
         if (coords[0] === undefined) {
@@ -423,9 +467,13 @@ class EventModel extends WidgetModel {
         let message_names = []
         switch (this.key_mouse_or_touch(event.type)) {
             case "touch":
+                message_names = common_event_message_names.concat(touch_event_standard_event_names)
+                break
             case "mouse":
                 message_names = common_event_message_names.concat(mouse_standard_event_message_names)
-                message_names = message_names.concat(mouse_added_event_message_names)
+                message_names = message_names.concat(mouse_and_touch_common_event_message_names)
+                message_names = message_names.concat(mouse_and_touch_added_event_message_names)
+                console.log(event)
                 if (event.type == 'wheel') {
                     message_names = message_names.concat(wheel_standard_event_names)
                 } else if (event.type == 'drop' || event.type.startsWith('drag')) {
@@ -441,13 +489,38 @@ class EventModel extends WidgetModel {
         }
 
         for (let i of message_names) {
-            event_message[i] = event[i]
+            if (touch_event_standard_event_names.includes(i)) {
+                // Some TouchEvent properties are lists of Touch events.
+                // Those individual Touch events are the things that need
+                // position attributes added to them, not the top-level
+                // TouchEvent.
+                event_message[i] = this._populate_touch_event_list(event[i])
+            } else {
+                event_message[i] = event[i]
+            }
         }
         for (let i of target_property_names) {
             event_message["target"][i] = event.target[i]
         }
         event_message['event'] = event['type']
         this.send(event_message, {})
+    }
+
+    _populate_touch_event_list(touch_list) {
+        // Input is a touch list, return is a list with some extra properties
+        // added to each Touch position.
+        let touch_message = {}
+        let message_list = []
+        let touch_items = touch_standard_event_names.concat(mouse_and_touch_common_event_message_names)
+        touch_items = touch_items.concat(mouse_and_touch_added_event_message_names)
+
+        for (let touch of touch_list) {
+            for (let item of touch_items) {
+                touch_message[item] = touch[item]
+            }
+            message_list = message_list.concat(touch_message)
+        }
+        return message_list
     }
 
     _prevent_event_propagation(generating_view, event) {
