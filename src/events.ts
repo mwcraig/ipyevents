@@ -53,18 +53,12 @@ let mouse_and_touch_added_event_message_names = [
 let mouse_standard_event_message_names = [
     'button',
     'buttons',
-    // 'clientX',
-    // 'clientY',
     'layerX',
     'layerY',
     'movementX',
     'movementY',
     'offsetX',
     'offsetY',
-    // 'pageX',
-    // 'pageY',
-    // 'screenX',
-    // 'screenY',
     'x',
     'y'
 ]
