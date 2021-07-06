@@ -1,5 +1,0 @@
-jupyter labextension install @jupyter-widgets/jupyterlab-manager
-
-npm install; npm run build
-
-jupyter labextension install .
