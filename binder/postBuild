@@ -1,1 +1,5 @@
-jupyter labextension install @jupyter-widgets/jupyterlab-manager ipyevents@latest
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+
+npm install; npm run build
+
+jupyter labextension install .
