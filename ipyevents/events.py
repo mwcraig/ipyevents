@@ -63,6 +63,9 @@ class Event(CoreWidget):
     supported_mouse_events
         List of mouse events that can be watched.
 
+    supported_touch_events
+        List of touch events that can be watched.
+
     supported_xy_coordinates
         List of supported xy coordinate systems that can be returned
         in `~ipyevents.Event.xy`.
@@ -102,6 +105,13 @@ class Event(CoreWidget):
         'keyup'
     ]).tag(sync=True)
 
+    _supported_touch_events = List([
+        'touchstart',
+        'touchend',
+        'touchmove',
+        'touchcancel',
+    ]).tag(sync=True)
+
     _xy_coordinate_system_allowed = [
         None,       # Not tracking mouse x/y
         'data',     # "natural" coordinates for the widget (e.g. image)
@@ -134,6 +144,10 @@ class Event(CoreWidget):
         return self._supported_mouse_events
 
     @property
+    def supported_touch_events(self):
+        return self._supported_touch_events
+
+    @property
     def supported_xy_coordinates(self):
         return self._xy_coordinate_system_allowed
 
@@ -141,7 +155,8 @@ class Event(CoreWidget):
     def _validate_watched_events(self, proposal):
         value = proposal['value']
         supported_events = (self._supported_mouse_events +
-                            self._supported_key_events)
+                            self._supported_key_events +
+                            self._supported_touch_events)
         bad_events = [v for v in value if v not in
                       supported_events]
         if bad_events:
