@@ -1,6 +1,11 @@
 ipyevents
 =========
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mwcraig/ipyevents/master?filepath=doc%2FWidget%20DOM%20Events.ipynb)
+
+Try it on binder:
+-----------------
+
+Dev version:
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mwcraig/ipyevents/HEAD?filepath=doc%2FWidget%20DOM%20Events.ipynb)
 
 *ipyevents* provides a custom widget for returning mouse and keyboard events to
 Python. Use it to:

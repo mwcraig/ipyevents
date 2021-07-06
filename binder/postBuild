@@ -1,1 +1,4 @@
-jupyter labextension install @jupyter-widgets/jupyterlab-manager ipyevents@latest
+set -e
+
+# AFAICT this does not actually get run for the package, so do it manually
+pip install -e .

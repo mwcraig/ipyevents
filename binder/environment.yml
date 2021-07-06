@@ -3,7 +3,6 @@ channels:
 - conda-forge
 dependencies:
 - notebook>=6
-- jupyterlab>=2
+- jupyterlab>=3   # This makes binder easier since no postBuild is required
 - ipywidgets>=7.6
 - python=3.9
-- ipyevents
