@@ -289,7 +289,6 @@ class EventModel extends WidgetModel {
 
         // The actual handler is here.
         let key_handler = (event) => {
-            // console.log('Key presses FTW!', event)
             if (this.get('ignore_modifier_key_events') &&
                _.contains(this.get('_modifier_keys'), event.key)) {
                 // If the key event is supposed to be ignored, then skip it.
@@ -467,7 +466,6 @@ class EventModel extends WidgetModel {
                 message_names = common_event_message_names.concat(mouse_standard_event_message_names)
                 message_names = message_names.concat(mouse_and_touch_common_event_message_names)
                 message_names = message_names.concat(mouse_and_touch_added_event_message_names)
-                console.log(event)
                 if (event.type == 'wheel') {
                     message_names = message_names.concat(wheel_standard_event_names)
                 } else if (event.type == 'drop' || event.type.startsWith('drag')) {
