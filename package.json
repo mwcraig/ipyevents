@@ -1,6 +1,6 @@
 {
   "name": "ipyevents",
-  "version": "1.8.2",
+  "version": "1.9.0",
   "description": "A custom widget for returning mouse and keyboard events to Python",
   "keywords": [
     "jupyter",
