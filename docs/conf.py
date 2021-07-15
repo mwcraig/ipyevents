@@ -22,7 +22,7 @@ copyright = '2021, Matt Craig'
 author = 'Matt Craig'
 
 # The full version, including alpha/beta/rc tags
-release = '0.9.0'
+release = 'main'
 
 
 # -- General configuration ---------------------------------------------------
@@ -42,13 +42,11 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-
 nbsphinx_prolog = r"""
 {% set docname = 'docs/' + env.doc2path(env.docname, base=None) %}
 .. raw:: html
+
     <div class="admonition note">
-      This page was generated from
-      <a class="reference external" href="https://github.com/mwcraig/ipevents/blob/{{ env.config.release|e }}/{{ docname|e }}">{{ docname|e }}</a>.
       Interactive online version:
       <span style="white-space: nowrap;"><a href="https://mybinder.org/v2/gh/mwcraig/ipevents/{{ env.config.release|e }}?filepath={{ docname|e }}"><img alt="Binder badge" src="https://mybinder.org/badge_logo.svg" style="vertical-align:text-bottom"></a>.</span>
       <script>
@@ -64,7 +62,9 @@ nbsphinx_prolog = r"""
         }
       </script>
     </div>
+
 .. raw:: latex
+
     \nbsphinxstartnotebook{\scriptsize\noindent\strut
     \textcolor{gray}{The following section was generated from
     \sphinxcode{\sphinxupquote{\strut {{ docname | escape_latex }}}} \dotfill}}
