@@ -22,7 +22,7 @@ copyright = '2021, Matt Craig'
 author = 'Matt Craig'
 
 # The full version, including alpha/beta/rc tags
-release = 'main'
+release = '2.0.0'
 
 
 # -- General configuration ---------------------------------------------------
