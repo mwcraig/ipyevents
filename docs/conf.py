@@ -48,7 +48,7 @@ nbsphinx_prolog = r"""
 
     <div class="admonition note">
       Interactive online version:
-      <span style="white-space: nowrap;"><a href="https://mybinder.org/v2/gh/mwcraig/ipevents/{{ env.config.release|e }}?filepath={{ docname|e }}"><img alt="Binder badge" src="https://mybinder.org/badge_logo.svg" style="vertical-align:text-bottom"></a>.</span>
+      <span style="white-space: nowrap;"><a href="https://mybinder.org/v2/gh/mwcraig/ipyevents/{{ env.config.release|e }}?filepath={{ docname|e }}"><img alt="Binder badge" src="https://mybinder.org/badge_logo.svg" style="vertical-align:text-bottom"></a>.</span>
       <script>
         if (document.location.host) {
           $(document.currentScript).replaceWith(
