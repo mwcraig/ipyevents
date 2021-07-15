@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-ipyevents: add richer interaction to your Jupyter widgets
-=========================================================
+ipyevents: add browser events to your Jupyter widgets
+=====================================================
 
 The best way to learn to use this package is to try it out on binder;
 it is really the only way to see the interactivity that ipyevents adds.
