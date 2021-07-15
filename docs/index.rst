@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to ipyevents's documentation!
-=====================================
+ipyevents: add richer interaction to your Jupyter widgets
+=========================================================
 
 .. toctree::
    :maxdepth: 2
