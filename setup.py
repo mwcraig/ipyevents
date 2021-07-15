@@ -95,6 +95,7 @@ setup_args = dict(
         'docs': [
             'sphinx',
             'nbsphinx',
+            'jupyterlab>=3'
         ],
     },
 )
