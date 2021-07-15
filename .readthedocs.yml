@@ -1,5 +1,9 @@
 version: 2
 
+# Install nodejs via conda
+conda:
+  environment: docs/rtd_env.yml
+
 # Optionally set the version of Python and requirements required to build your docs
 python:
   version: 3.8
