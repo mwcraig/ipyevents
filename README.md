@@ -5,16 +5,16 @@ Try it on binder:
 -----------------
 
 Dev version:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mwcraig/ipyevents/HEAD?filepath=doc%2FWidget%20DOM%20Events.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mwcraig/ipyevents/HEAD?filepath=docs%2Fevents.ipynb)
 
 *ipyevents* provides a custom widget for returning mouse and keyboard events to
 Python. Use it to:
 
  - add keyboard shortcuts to an existing widget;
  - react to the user clicking on an image;
- - install callbacks on arbitrary mouse and keyboard events.
+ - add callbacks on arbitrary mouse and keyboard events.
 
-See [this demo notebook](doc/Widget%20DOM%20Events.ipynb) for documentation.
+See [this demo notebook](docs/events.ipynb) for documentation.
 
 Special thanks to the [contributors to `ipyevents`](CONTRIBUTORS.md)!
 
@@ -30,9 +30,11 @@ $ conda install -c conda-forge ipyevents
 To install use `pip`:
 
     $ pip install ipyevents
-    $ jupyter nbextension enable --py --sys-prefix ipyevents
 
-To install with JupyterLab (whether you installed with `conda` or `pip`):
+Using with JupyterLab (whether you installed with `conda` or `pip`):
+
++ The stable releases of ipyevents are only built for JupyterLab 3 and up
++ The last release that is built for JupyterLab 2 is 0.9.0. See the [README for that version](https://github.com/mwcraig/ipyevents/tree/0.9.0) for installation instructions.
 
 ```bash
 $ jupyter labextension install @jupyter-widgets/jupyterlab-manager ipyevents

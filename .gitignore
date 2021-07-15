@@ -13,6 +13,9 @@ ipyevents/labextension/
 doc/source
 lib
 
+# Documentation build
+docs/_build
+
 # OS X
 .DS_Store
 js/lib
