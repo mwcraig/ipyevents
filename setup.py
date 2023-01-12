@@ -2,7 +2,7 @@ from os import path
 
 from jupyter_packaging import (
     create_cmdclass, install_npm, ensure_targets,
-    combine_commands, ensure_python,
+    combine_commands,
     get_version, skip_if_exists
 )
 
@@ -14,9 +14,6 @@ HERE = path.dirname(path.abspath(__file__))
 
 # The name of the project
 name = 'ipyevents'
-
-# Ensure a valid python version
-ensure_python('>=3.6')
 
 # Get our version
 version = get_version(path.join(name, '_version.py'))
@@ -83,6 +80,7 @@ setup_args = dict(
         'Framework :: Jupyter',
     ],
     include_package_data = True,
+    python_requires = '>=3.6',
     install_requires = [
         'ipywidgets>=7.6.0',
     ],
