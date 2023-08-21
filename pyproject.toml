@@ -104,5 +104,5 @@ version_template = "version = \"{major}.{minor}.{patch}{channel}{release}\""
 src = "ipyevents/_version.py"
 
 [[tool.tbump.file]]
-src = "package.json"
-version_template = "\"version\": \"{major}.{minor}.{patch}{channel}{release}\""
+src = "src/version.ts"
+version_template = "const EXTENSION_SPEC_VERSION = '{major}.{minor}.{patch}{channel}{release}'"
