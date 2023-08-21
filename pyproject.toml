@@ -1,3 +1,108 @@
 [build-system]
-requires = ["jupyter_packaging~=0.7.0", "jupyterlab==3.*", "setuptools>=40.8.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = [
+    "hatchling",
+    "jupyterlab==3.*",
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "ipyevents"
+description = "A custom widget for returning mouse and keyboard events to Python"
+readme = "README.md"
+license = {text = "BSD 3-clause"}
+lincense_files = ["LICENSE.md"]
+requires-python = ">=3.6"
+authors = [
+    { name = "Matt Craig", email = "mattwcraig@gmail.com" },
+]
+keywords = [
+    "IPython",
+    "Jupyter",
+    "Widgets",
+]
+classifiers = [
+    "Framework :: Jupyter",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+]
+dependencies = [
+    "ipywidgets>=7.6.0",
+]
+version = "2.0.1"
+
+[project.optional-dependencies]
+docs = [
+    "jupyterlab>=3",
+    "nbsphinx",
+    "sphinx",
+]
+test = [
+    "nbval",
+    "pytest",
+    "pytest-cov",
+]
+
+[project.urls]
+Homepage = "https://github.com/mwcraig/ipyevents"
+
+[tool.hatch.build]
+artifacts = [
+    "ipyevents/nbextension/",
+    "ipyevents/labextension/",
+]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"ipyevents/nbextension/static/*.js*" = "share/jupyter/nbextensions/ipyevents/*.js*"
+"ipyevents/labextension" = "share/jupyter/labextensions/ipyevents"
+"./ipyevents.json" = "etc/jupyter/nbconfig/notebook.d/ipyevents.json"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    ".github",
+]
+
+[tool.hatch.build.hooks.jupyter-builder]
+ensured-targets = [
+    "ipyevents/nbextension/static/index.js",
+    "ipyevents/labextension/package.json",
+]
+dependencies = [
+    "hatch-jupyter-builder>=0.8.3",
+]
+build-function = "hatch_jupyter_builder.npm_builder"
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
+path = "."
+build_cmd = "build"
+
+[tool.tbump]
+field = [
+    { name = "channel", default = "" },
+    { name = "release", default = "" },
+]
+
+[tool.tbump.version]
+current = "2.0.1"
+regex = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)((?P<channel>a|b|rc|.dev)(?P<release>\\d+))?"
+
+[tool.tbump.git]
+message_template = "Bump to {new_version}"
+tag_template = "v{new_version}"
+
+[[tool.tbump.file]]
+src = "pyproject.toml"
+version_template = "version = \"{major}.{minor}.{patch}{channel}{release}\""
+
+[[tool.tbump.file]]
+src = "ipyevents/_version.py"
+
+[[tool.tbump.file]]
+src = "package.json"
+version_template = "\"version\": \"{major}.{minor}.{patch}{channel}{release}\""
