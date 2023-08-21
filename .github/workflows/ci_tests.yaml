@@ -29,9 +29,6 @@ jobs:
     - name: Install the package
       run: |
         pip install .
-    - name: Check notebook extension installation
-      run: |
-        jupyter nbextension list | grep ipyevents
     - name: Check labextension is installed
       shell: bash
       run: |
