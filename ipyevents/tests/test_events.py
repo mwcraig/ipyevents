@@ -82,7 +82,7 @@ def test_negative_wait_raises_error():
 
 
 def test_floating_point_wait_raises_error():
-    # A floating point value should reaise a TraitletError
+    # A floating point value should raise a TraitletError
     event_widget = Event()
 
     with pytest.raises(traitlets.traitlets.TraitError) as e:
