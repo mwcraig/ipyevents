@@ -23,7 +23,7 @@ class Event(CoreWidget):
     ignore_modifier_key_events : bool
         If ``True``, ignore key presses of modifier keys
         ('Shift', 'Control', 'Alt', 'Meta'). Useful when keys mouse events
-        with modifiers are watched but you want ot ignore the modifiers by
+        with modifiers are watched but you want to ignore the modifiers by
         themselves. Default is ``False``.
 
     prevent_default_actions : bool

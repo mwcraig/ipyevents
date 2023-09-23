@@ -10,7 +10,7 @@ name = "ipyevents"
 description = "A custom widget for returning mouse and keyboard events to Python"
 readme = "README.md"
 license = {text = "BSD 3-clause"}
-lincense_files = ["LICENSE.md"]
+license_files = ["LICENSE.md"]
 requires-python = ">=3.6"
 authors = [
     { name = "Matt Craig", email = "mattwcraig@gmail.com" },
