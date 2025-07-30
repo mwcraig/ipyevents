@@ -11,7 +11,7 @@ description = "A custom widget for returning mouse and keyboard events to Python
 readme = "README.md"
 license = {text = "BSD 3-clause"}
 license_files = ["LICENSE.md"]
-requires-python = ">=3.6"
+requires-python = ">=3.9"
 authors = [
     { name = "Matt Craig", email = "mattwcraig@gmail.com" },
 ]
