@@ -2,18 +2,25 @@ name: CI
 
 on:
   push:
+    branches:
+      - main
   pull_request:
   schedule:
     # run every Monday at 6am UTC
     - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   ci-tests:
     strategy:
-      max-parallel: 4
       fail-fast: false
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     runs-on: ${{ matrix.platform }}
     steps:
     - name: Check out repository
@@ -21,7 +28,7 @@ jobs:
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v6
       with:
-        python-version: 3.9
+        python-version: ${{ matrix.python }}
     - name: Install base dependencies
       run: |
         python -m pip install --upgrade pip
@@ -38,4 +45,3 @@ jobs:
     - name: Run unit ci-tests
       run: |
         pytest ipyevents
-
