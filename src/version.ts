@@ -7,4 +7,4 @@
  * your models, or serialized format changes.
  */
 export
-const EXTENSION_SPEC_VERSION = '2.0.1';
+const EXTENSION_SPEC_VERSION = '2.0.4';
