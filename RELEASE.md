@@ -2,8 +2,7 @@
 
 + Update `_version.py` (set release version, remove 'dev'), `package.json` and `src/version.ts`
 + git add the _version.py file and git commit
-+ `python setup.py sdist`
-+ `python setup.py bdist_wheel`
++ `hatch build`
 + `twine upload dist/ipyevents*`
 + `git tag -a X.X.X -m 'comment'`
 + Update _version.py (add 'dev' and increment minor)
